@@ -1,0 +1,2 @@
+#questo file serve a pitone per rionoscere la cartella come un package, se ho una cratella vuota e devo passare un valore di un package ad un altro pitone mi da error
+#mi restituisce unb errore MOduleNotFoundError
