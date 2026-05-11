@@ -1,0 +1,151 @@
+@startuml
+title Smart Home diagramma di progettazione delle classi
+skinparam linetype ortho
+
+package "Organizzazioni" {
+    class Zona <<entity>> {
+        - id: int
+        - nome: str
+        + sogliaZona: float
+        +orarioZona: datetime
+        + getId(Zona): int
+        + getNome(Zona): str       
+    }
+    class Scenario <<entity>> {
+        - id: int
+        - nome: str
+        + sogliaScenario: float
+        + orarioScenario: datetime
+        + getId(Scenario): str
+        + getNome(Scenario): str
+    }
+}
+
+package "Dati"{
+    class Backup <<entity>> {
+        - orario: datetime
+        - contenuto: str
+        + getOrarioBackup(Backup): datetime
+        + getContenuto(Backup): str
+
+    }
+    class Log <<entity>> {
+        - orario: datetime
+        - errori: list
+
+        +getOrarioLog(Log): datetime
+        + getErrori(Log): list
+    }
+}
+
+package "Dispositivi" {
+    abstract class Dispositivo <<entity>> {
+        - id: str
+        + getId(Dispositivo): str
+    }
+    class Sensore <<entity>> extends Dispositivo {
+        - soglia: float
+        + setSoglia(float): void
+        + getSoglia(Sensore): float
+    }
+    class Attuatore <<entity>> extends Dispositivo {
+        - orarioAttivazione: datetime
+        - statoAttuatore: bool
+        + setOrario(orarioAttivazione): void
+        + getStato(Attuatore): bool
+        + getOrario(Attuatore): datetime
+    }
+
+}
+
+package "Gestione" {
+    class GestoreZone <<control>> {
+        + creaZona(): Zona
+        + modificaZona(Zona)
+        + visualizzaZona(Zona)
+        + personalizzaDispositivo(Dispositivo, Zona)
+        + eliminaZona(Zona)
+    }
+    class GestoreScenari <<control>>  {
+        + creaScenario(): Scenario
+        + eseguiScenario(Scenario)
+        + eliminaScenario(Scenario)
+        + modificaScenario(Scenario)
+    }
+    class GestoreDati <<control>>  {
+        + eseguiBackup(): Backup
+        + scriviLog(str): Log
+        + caricaBackup(Backup)
+        + visualizzaLog(Log)
+    }
+    class GestoreUtenti <<control>> {
+        + creaAccount(): Account
+        + modificaPermessi(Account)
+        + eliminaAccount(Account)
+    }
+    class GestoreDispositivi <<control>>  {
+        + aggiungiDispositivo(): Dispositivo
+        + configuraDispositivo(Dispositivo)
+        + rimuoviDispositivo(Dispositivo)
+    }
+    class GestoreTempo <<control>>{
+        + checkOrario(getOrario)
+    }
+}
+
+class Timer <<entity>>{
+    getTime(): datetime
+}
+
+package "Utenti" {
+    abstract class Utente <<entity>> {
+    -id: str
+    -nome: str
+    + visualizzaDatiDispositivo(Dispositivo)
+    + getId(Utente): str
+    + getNome(Utente): str
+    }
+    class Admin <<entity>> extends Utente {
+        + configuraElementoSistema()
+    }
+    class Ospite <<entity>> extends Utente
+    
+    interface Autenticabile {
+        + autentica(str, str): bool
+    }
+}
+
+class Centralina <<boundary>> {
+    + gestisciZone()
+    + gestisciScenari()
+    + gestisciUtenti()
+    + gestisciDispositivi()
+    + gestisciTempo()
+    + segnalaErrore():str
+}
+
+
+
+Admin --> Centralina : usa
+
+Centralina "1" o-down- "1" GestoreZone
+Centralina "1" o-down- "1" GestoreScenari
+Centralina "1" o-down- "1" GestoreUtenti
+Centralina "1" o-down- "1" GestoreDispositivi
+Centralina "1" o-down- "1" GestoreDati 
+
+GestoreZone "1" o-- "*" Zona
+GestoreScenari "1" o-- "*" Scenario
+GestoreDispositivi "1" o-- "*" Dispositivo
+GestoreDati "1" o-- "0..1" Backup
+GestoreDati "1" o-- "*" Log
+
+Zona "1" o-- "*" Dispositivo
+Scenario "1" o-- "*" Dispositivo
+Autenticabile ..|> Utente
+
+Timer "1" --o "1" GestoreTempo
+Centralina "1" o-- "1" GestoreTempo
+
+
+@endum
