@@ -17,10 +17,11 @@ class Admin(utente):
 
         elif isinstance(dispositivo, Attuatore):
             return f"Attuatore: stato attuale {dispositivo.getStato()}"
-        
+            #utilizzo return f per il fatto dell' ECB e non i printf
         else:
             return "Dispositivo sconosciuto"
         
     def configuraElementoSistema(self):
         #qui bisogna mettere la logica per la configuarazione
         pass
+    #Non mettiamo i toDict perche c'è l'ereditarieta data dalla superclasse Utente
