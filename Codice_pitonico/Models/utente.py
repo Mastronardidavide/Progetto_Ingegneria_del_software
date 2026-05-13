@@ -1,23 +1,30 @@
-class utente:
-    def __init__(self, id: str, nome: str): #definisco il costruttore
+from abc import ABC, abstractmethod
+class Autenticabile(ABC): #interfaccia
+    @abstractmethod
+    def autentica(self, utente: str, password: str) -> bool:
+        pass
+class Utente(Autenticabile): #classe astratta
+
+    def __init__(self, id: str, nome: str, password: str,): #aggiungo la passowrd per l'interfaccia autenticabile
         self._id = id
         self._nome = nome
-    
-    def getId(self) -> str: return self._id #metodi dell'utente
-    def getNome(self) -> str: return self._nome
+        self._password = password
 
-    def toDict(self) -> dict: #metodo che lo restituisce in dizionario per convertirlo in JSON
-        return {"id": self._id, "nome": self._nome}
-    
-    #implementazione del metodo di visualizzazione di dispositivo, controlla che esso sia sensore o attuatore, e implementa i metodi relativi, se non è nessuno dei due
-    #allora ritorna il dizionario vuoto
-    def visualizzaDispositivo(self, d: Dispositivo) -> dict: 
-        if isinstance(d, Sensore):
-            return{"id_sensore": d.getId(),"soglia_sensore": d.getSoglia()}
-        if isinstance(d, Attuatore):
-            return{"id_attuatore": d.getId(),"stato_attuatore": d.getStato(), "orario_attivazione": d.getOrario()}
-        return{}
-    
-    @classmethod #mi permette di riportare i dati di un dizionario (id, nome) in un utente
-    def fromDict(cls, d: dict) -> "Utente":
-        return cls(d["id"], d["nome"])
+        def getID(self) -> str:
+            return self._id
+        
+        def getNome(self) -> str:
+            return self._nome
+        
+        def toDict(self) -> dict: #per il salvataggio dei dati in Json
+            return{
+                "id": self._id,
+                "nome": self._nome,
+                "password": self._password
+            }
+        def autentica(self, utente: str, password: str) -> bool:
+            return self._nome == utente and self._password == password
+#non posso usare isinstance perche violiamo il principio di SOLID, Open/ Closed
+        @abstractmethod #metodo della classe astratta Utente
+        def visualizzaDatiDispositivo(self, dispositivo):
+            pass
