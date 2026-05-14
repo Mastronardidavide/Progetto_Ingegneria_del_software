@@ -1,47 +1,61 @@
-@startuml classiprogettazione
-
+@startuml
 title Smart Home diagramma di progettazione delle classi
 skinparam linetype ortho
 
 package "Organizzazioni" {
-    class Zona  {
+    class Zona <<entity>> {
         - id: int
         - nome: str
         + sogliaZona: float
-        + orarioZona: datetime
+        +orarioZona: datetime
+        + getId(Zona): int
+        + getNome(Zona): str       
     }
-    class Scenario  {
+    class Scenario <<entity>> {
         - id: int
         - nome: str
         + sogliaScenario: float
         + orarioScenario: datetime
+        + getId(Scenario): str
+        + getNome(Scenario): str
     }
 }
 
 package "Dati"{
-    class Backup {
+    class Backup <<entity>> {
         - orario: datetime
         - contenuto: str
+        + getOrarioBackup(Backup): datetime
+        + getContenuto(Backup): str
+
     }
-    class Log  {
+    class Log <<entity>> {
         - orario: datetime
         - errori: list
+
+        +getOrarioLog(Log): datetime
+        + getErrori(Log): list
     }
 }
 
 package "Dispositivi" {
-    abstract class Dispositivo {
+    abstract class Dispositivo <<entity>> {
         - id: str
+        + getId(Dispositivo): str
     }
-    class Sensore  extends Dispositivo {
+    class Sensore <<entity>> extends Dispositivo {
         - soglia: float
         + setSoglia(float): void
+        + getSoglia(Sensore): float
     }
-    class Attuatore  extends Dispositivo {
+    class Attuatore <<entity>> extends Dispositivo {
         - orarioAttivazione: datetime
         - statoAttuatore: bool
         + setOrario(orarioAttivazione): void
+        + getStato(Attuatore): bool
+        + getOrario(Attuatore): datetime
     }
+
 }
 
 package "Gestione" {
@@ -80,17 +94,21 @@ package "Gestione" {
 }
 
 class Timer <<entity>>{
-    getOrario(): datetime
+    getTime(): datetime
 }
 
 package "Utenti" {
-    abstract class Utente {
-        + visualizzaDatiDispositivo(Dispositivo)
+    abstract class Utente <<entity>> {
+    -id: str
+    -nome: str
+    + visualizzaDatiDispositivo(Dispositivo)
+    + getId(Utente): str
+    + getNome(Utente): str
     }
-    class Admin  extends Utente {
+    class Admin <<entity>> extends Utente {
         + configuraElementoSistema()
     }
-    class Ospite  extends Utente
+    class Ospite <<entity>> extends Utente
     
     interface Autenticabile {
         + autentica(str, str): bool
@@ -129,4 +147,5 @@ Autenticabile ..|> Utente
 Timer "1" --o "1" GestoreTempo
 Centralina "1" o-- "1" GestoreTempo
 
-@enduml
+
+@endum
