@@ -40,7 +40,7 @@ class UtenteRepository:
         #sovrascrivo il file con la lista aggiornata 
         with open(self._path,"w", encoding = "utf-8") as f:
             json.dump(lista_dizionari,f, indent=4, ensure_ascii=False)
-            #json dump prende un ogetto pitone e lo serializza scrivendolo manualmente in un file
+            #json dump prende un oggetto pitone e lo serializza scrivendolo manualmente in un file
             #ensure_ascii=False è uno standard e sta nel pdf della serializzazione, e da quello che ho visto con False
             #permetti al file json di salvare e mantetnere visivamente leggibili i caratteri speciali.
         
