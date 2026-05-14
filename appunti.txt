@@ -1,6 +1,6 @@
 molteplicità utente centralinA in diagramma delle classi
 
-se l'admin ha accesso a casi d'uso diversi rispetto all 'ospite i casi d'uso sono chiusi rispetto all'osipite, se fa il login l'adimn a l'admin da l'opzione gestione utenti
+se l'admin ha accesso a casi d'uso diversi rispetto all 'ospite i casi d'uso sono chiusi rispetto all'osipite, se fa il login l'adimn, l'admin da l'opzione gestione utenti
 nel nostro caso 
 
 centralina diventa control, bisogna implementare un boundary come finestra che mi fa da tramite, mentre admin e ospite, quindi utente non sono classi. oppure sono classi che servono solo per salvare dati nelle repository
@@ -16,3 +16,5 @@ le linee di vita dei diagrammi di creazione iniziano QUANDO è stato creata l'en
 centralina diventa form perchè è boundary non control
 
 l'admin nei diagrammi di analisi sta per conto suo, centralina è proprio da togliere qua
+
+backup non ha bisogno di una repository, è la repository.
