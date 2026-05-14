@@ -1,0 +1,42 @@
+@startuml
+
+title sd ImpostaStato
+
+actor Utente
+
+participant "<<boundary>>\n:Centralina"
+participant "<<control>>\n:GestoreDispositivi"
+participant "<<repository>>\n:DispositivoRepository"
+participant "\n:Attuatore"
+
+Utente -> "<<boundary>>\n:Centralina" : selezionaAttuatore()
+activate "<<boundary>>\n:Centralina"
+
+Utente -> "<<boundary>>\n:Centralina" : impostaStato()
+
+"<<boundary>>\n:Centralina" -> "<<control>>\n:GestoreDispositivi" : cambiaStato()
+activate "<<control>>\n:GestoreDispositivi"
+
+"<<control>>\n:GestoreDispositivi" -> "<<repository>>\n:DispositivoRepository" : getAttuatore()
+activate "<<repository>>\n:DispositivoRepository"
+"<<repository>>\n:DispositivoRepository" --> "<<control>>\n:GestoreDispositivi" : attuatore
+deactivate "<<repository>>\n:DispositivoRepository"
+
+alt l'attuatore esiste
+    "<<control>>\n:GestoreDispositivi" -> "\n:Attuatore" : setStato()
+    activate "\n:Attuatore"
+    "\n:Attuatore" --> "<<control>>\n:GestoreDispositivi" : attuatore
+    deactivate "\n:Attuatore"
+    
+    "<<control>>\n:GestoreDispositivi" --> "<<boundary>>\n:Centralina" : attuatore
+    "<<boundary>>\n:Centralina" --> Utente : visualizzaConferma()
+    
+else else
+    "<<control>>\n:GestoreDispositivi" --> "<<boundary>>\n:Centralina" : errore
+    "<<boundary>>\n:Centralina" --> Utente : mostraErrore()
+end
+
+deactivate "<<control>>\n:GestoreDispositivi"
+deactivate "<<boundary>>\n:Centralina"
+
+@enduml

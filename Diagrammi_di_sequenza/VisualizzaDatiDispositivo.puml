@@ -1,0 +1,40 @@
+@startuml
+
+title sd VisualizzaDatiDispositivo
+
+actor Utente
+
+participant "<<boundary>>\n:Centralina"
+participant "<<control>>\n:GestoreDispositivi"
+participant "<<repository>>\n:DispositivoRepository"
+participant "<<entity>>\n:Dispositivo"
+
+Utente -> "<<boundary>>\n:Centralina" : selezionaDispositivo()
+activate "<<boundary>>\n:Centralina"
+
+"<<boundary>>\n:Centralina" -> "<<control>>\n:GestoreDispositivi" : recuperaDati()
+activate "<<control>>\n:GestoreDispositivi"
+
+"<<control>>\n:GestoreDispositivi" -> "<<repository>>\n:DispositivoRepository" : getDispositivo()
+activate "<<repository>>\n:DispositivoRepository"
+"<<repository>>\n:DispositivoRepository" --> "<<control>>\n:GestoreDispositivi" : dispositivo
+deactivate "<<repository>>\n:DispositivoRepository"
+
+alt il dispositivo esiste
+    "<<control>>\n:GestoreDispositivi" -> "<<entity>>\n:Dispositivo" : getDati()
+    activate "<<entity>>\n:Dispositivo"
+    "<<entity>>\n:Dispositivo" --> "<<control>>\n:GestoreDispositivi" : datiCorrenti
+    deactivate "<<entity>>\n:Dispositivo"
+    
+    "<<control>>\n:GestoreDispositivi" --> "<<boundary>>\n:Centralina" : mostraDati()
+    "<<boundary>>\n:Centralina" --> Utente : visualizzaInfo()
+    
+else else
+    "<<control>>\n:GestoreDispositivi" --> "<<boundary>>\n:Centralina" : errore()
+    "<<boundary>>\n:Centralina" --> Utente : mostraErrore()
+end
+
+deactivate "<<control>>\n:GestoreDispositivi"
+deactivate "<<boundary>>\n:Centralina"
+
+@enduml
