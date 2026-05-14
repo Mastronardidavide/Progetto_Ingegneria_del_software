@@ -22,7 +22,7 @@ class ZonaRepository:
             # Usa toDict() per "decomporsi" prima del salvataggio
             json.dump([z.toDict() for z in self._zone.values()], f, indent=2, ensure_ascii=False)
 
-#Qui anna pepe da altri metodi per interagire con le zone dal resto del programma, lo riporto ma si puo sempre eliminare se non serve. mi sono riferito all esempio del libro.
+#Qui da altri metodi per interagire con le zone dal resto del programma, lo riporto ma si puo sempre eliminare se non serve. mi sono riferito all esempio del libro.
     def trovaPerId(self, id: int):
             return self._zone.get(id)  # Restituisce None se non trova la zona
 
