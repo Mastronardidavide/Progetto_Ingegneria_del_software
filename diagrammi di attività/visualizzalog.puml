@@ -1,0 +1,15 @@
+@startuml visualizzalog
+title Visualizza log
+
+start
+if (Admin autenticato?) then (no)
+    :Mostra messaggio di errore;
+    :Richiedi autenticazione;  
+    
+else (si)
+    :Seleziona "Visualizza log";
+    :Recupera log dal sistema;
+    :Mostra log;
+endif
+stop
+@enduml

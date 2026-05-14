@@ -1,0 +1,19 @@
+@startuml login
+title Login Utente
+
+start
+:Seleziona "Login";
+:Inserisce credenziali;
+
+if (Credenziali corrette?) then (si)
+  :Permette l'accesso;
+  :Utente autenticato;
+else (no)
+fork
+  :Accesso negato;
+fork again 
+  :Mostra errore;
+end fork
+endif
+stop
+@enduml

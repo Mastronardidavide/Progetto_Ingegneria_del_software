@@ -1,0 +1,9 @@
+@startuml eseguibackup
+title Esegui backup
+
+start
+:Recupera dati dispositivi;
+:Salva dati su file di backup;
+:Dati dispositivi raccolti;
+stop    
+@enduml

@@ -1,0 +1,132 @@
+@startuml classiprogettazione
+
+title Smart Home diagramma di progettazione delle classi
+skinparam linetype ortho
+
+package "Organizzazioni" {
+    class Zona  {
+        - id: int
+        - nome: str
+        + sogliaZona: float
+        + orarioZona: datetime
+    }
+    class Scenario  {
+        - id: int
+        - nome: str
+        + sogliaScenario: float
+        + orarioScenario: datetime
+    }
+}
+
+package "Dati"{
+    class Backup {
+        - orario: datetime
+        - contenuto: str
+    }
+    class Log  {
+        - orario: datetime
+        - errori: list
+    }
+}
+
+package "Dispositivi" {
+    abstract class Dispositivo {
+        - id: str
+    }
+    class Sensore  extends Dispositivo {
+        - soglia: float
+        + setSoglia(float): void
+    }
+    class Attuatore  extends Dispositivo {
+        - orarioAttivazione: datetime
+        - statoAttuatore: bool
+        + setOrario(orarioAttivazione): void
+    }
+}
+
+package "Gestione" {
+    class GestoreZone <<control>> {
+        + creaZona(): Zona
+        + modificaZona(Zona)
+        + visualizzaZona(Zona)
+        + personalizzaDispositivo(Dispositivo, Zona)
+        + eliminaZona(Zona)
+    }
+    class GestoreScenari <<control>>  {
+        + creaScenario(): Scenario
+        + eseguiScenario(Scenario)
+        + eliminaScenario(Scenario)
+        + modificaScenario(Scenario)
+    }
+    class GestoreDati <<control>>  {
+        + eseguiBackup(): Backup
+        + scriviLog(str): Log
+        + caricaBackup(Backup)
+        + visualizzaLog(Log)
+    }
+    class GestoreUtenti <<control>> {
+        + creaAccount(): Account
+        + modificaPermessi(Account)
+        + eliminaAccount(Account)
+    }
+    class GestoreDispositivi <<control>>  {
+        + aggiungiDispositivo(): Dispositivo
+        + configuraDispositivo(Dispositivo)
+        + rimuoviDispositivo(Dispositivo)
+    }
+    class GestoreTempo <<control>>{
+        + checkOrario(getOrario)
+    }
+}
+
+class Timer <<entity>>{
+    getOrario(): datetime
+}
+
+package "Utenti" {
+    abstract class Utente {
+        + visualizzaDatiDispositivo(Dispositivo)
+    }
+    class Admin  extends Utente {
+        + configuraElementoSistema()
+    }
+    class Ospite  extends Utente
+    
+    interface Autenticabile {
+        + autentica(str, str): bool
+    }
+}
+
+class Centralina <<boundary>> {
+    + gestisciZone()
+    + gestisciScenari()
+    + gestisciUtenti()
+    + gestisciDispositivi()
+    + gestisciTempo()
+    + segnalaErrore():str
+}
+
+
+
+Admin --> Centralina : usa
+
+Centralina "1" o-down- "1" GestoreZone
+Centralina "1" o-down- "1" GestoreScenari
+Centralina "1" o-down- "1" GestoreUtenti
+Centralina "1" o-down- "1" GestoreDispositivi
+Centralina "1" o-down- "1" GestoreDati 
+
+GestoreZone "1" o-- "*" Zona
+GestoreScenari "1" o-- "*" Scenario
+GestoreDispositivi "1" o-- "*" Dispositivo
+GestoreDati "1" o-- "0..1" Backup
+GestoreDati "1" o-- "*" Log
+
+Zona "1" o-- "*" Dispositivo
+Scenario "1" o-- "*" Dispositivo
+Autenticabile ..|> Utente
+
+Timer "1" --o "1" GestoreTempo
+Centralina "1" o-- "1" GestoreTempo
+
+@enduml

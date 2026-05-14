@@ -1,0 +1,34 @@
+@startuml gestionezs
+
+title "Gestione Zone e Scenari"
+left to right direction
+
+actor Admin
+actor Utente
+
+usecase "Crea Zona" as CreaZ
+usecase "Elimina Zona" as EliminaZ
+usecase "Personalizza Dispositivo Zona" as Personalizza
+usecase "Crea Scenario" as CreaS
+usecase "Elimina Scenario" as EliminaS
+usecase "Modifica Scenario" as Modifica
+usecase "Esegui Scenario" as Esegui
+usecase "Effettua Login" as Login
+
+Admin -- CreaZ
+Admin -- EliminaZ
+Admin -- Personalizza
+Admin -- CreaS
+Admin -- EliminaS
+Admin -- Modifica
+Utente -- Esegui
+
+CreaZ ..> Login: <<include>>
+EliminaZ ..> Login: <<include>>
+Personalizza ..> Login: <<include>>
+CreaS ..> Login: <<include>>
+EliminaS ..> Login: <<include>>
+Modifica ..> Login: <<include>>
+Esegui ..> Login: <<include>>
+
+@enduml

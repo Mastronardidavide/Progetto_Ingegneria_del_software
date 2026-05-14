@@ -1,0 +1,102 @@
+@startuml gestioneaccount
+
+title "Gestione Account"
+left to right direction
+
+actor Utente
+actor Admin
+
+usecase "Effettua Login" as Login
+usecase "Crea Account" as Crea
+usecase "Cancella Account" as Cancella
+usecase "Modifica Permessi" as Modifica
+
+Utente -- Login
+Admin -- Login
+Admin -- Crea
+Admin -- Cancella
+Admin -- Modifica
+
+Crea ..> Login: <<include>>
+Cancella ..> Login: <<include>>
+Modifica ..> Login: <<include>>
+
+newpage 
+
+title "Gestione Dispositivi"
+left to right direction
+
+actor Utente
+actor Admin
+
+usecase "Aggiungi Dispositivo" as Aggiungi
+usecase "Rimuovi Dispositivo" as Rimuovi
+usecase "Visualizza Dati Dispositivo" as Visualizza
+usecase "Imposta Stato Attuatore" as Imposta
+usecase "Effettua Login" as Login
+
+Admin -- Aggiungi
+Admin -- Rimuovi
+Utente -- Imposta
+Utente -- Visualizza
+
+Aggiungi ..> Login: <<include>>
+Rimuovi ..> Login: <<include>>
+Visualizza ..> Login: <<include>>
+Imposta ..> Login: <<include>>
+
+newpage
+
+title "Gestione Sistema"
+left to right direction
+
+actor Tempo
+actor Admin
+
+usecase "Crea Log" as Crea
+usecase "Visualizza Log" as Visualizza
+usecase "Esegui Backup" as Esegui
+usecase "Ripristina Stato Sistema" as Ripristina
+usecase "Effettua Login" as Login
+
+Tempo -- Crea
+Tempo -- Esegui
+Tempo -- Ripristina
+Admin -- Visualizza
+
+Visualizza ..> Login: <<include>>
+
+newpage 
+
+title "Gestione Zone e Scenari"
+left to right direction
+
+actor Admin
+actor Utente
+
+usecase "Crea Zona" as CreaZ
+usecase "Elimina Zona" as EliminaZ
+usecase "Personalizza Dispositivo Zona" as Personalizza
+usecase "Crea Scenario" as CreaS
+usecase "Elimina Scenario" as EliminaS
+usecase "Modifica Scenario" as Modifica
+usecase "Esegui Scenario" as Esegui
+usecase "Effettua Login" as Login
+
+Admin -- CreaZ
+Admin -- EliminaZ
+Admin -- Personalizza
+Admin -- CreaS
+Admin -- EliminaS
+Admin -- Modifica
+Utente -- Esegui
+
+CreaZ ..> Login: <<include>>
+EliminaZ ..> Login: <<include>>
+Personalizza ..> Login: <<include>>
+CreaS ..> Login: <<include>>
+EliminaS ..> Login: <<include>>
+Modifica ..> Login: <<include>>
+Esegui ..> Login: <<include>>
+
+@enduml

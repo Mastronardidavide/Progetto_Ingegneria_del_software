@@ -1,0 +1,24 @@
+@startuml gestioneaccount
+
+title "Gestione Account"
+left to right direction
+
+actor Utente
+actor Admin
+
+usecase "Effettua Login" as Login
+usecase "Crea Account" as Crea
+usecase "Cancella Account" as Cancella
+usecase "Modifica Permessi" as Modifica
+
+Utente -- Login
+Admin -- Login
+Admin -- Crea
+Admin -- Cancella
+Admin -- Modifica
+
+Crea ..> Login: <<include>>
+Cancella ..> Login: <<include>>
+Modifica ..> Login: <<include>>
+
+@enduml

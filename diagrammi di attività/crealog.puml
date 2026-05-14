@@ -1,0 +1,8 @@
+@startuml crealog
+title Crea un log degli errori
+
+start
+:Genera un log errori;
+:Il log è stato generato;
+stop
+@enduml

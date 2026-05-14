@@ -1,0 +1,21 @@
+@startuml modificapermessi
+title Modifica permessi account Ospite
+
+start
+if (Admin autenticato?) then (no)
+    :Mostra messaggio di errore;
+    :Richiedi autenticazione;  
+    
+else (si)
+    if (Account ospite esiste) then (si)
+        :Seleziona account ospite;
+        :Modifica permessi account;
+
+        :Assume nuovi permessi;
+
+    else (no)
+        :Mostra messaggio di errore;
+    endif   
+endif 
+stop
+@enduml

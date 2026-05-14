@@ -1,0 +1,14 @@
+@startuml ripristinastato
+title Ripristina il sistema dall'ultimo backup
+
+start
+if (Esiste un backup?) then (si)
+    :Recupera i file di backup;
+    :Ripristina il backup recuperato;
+    :Il backup è stato ripristinato;
+else (no)
+    :Mostra messaggio di errore;
+endif
+stop
+
+@enduml

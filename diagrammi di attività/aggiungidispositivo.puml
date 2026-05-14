@@ -1,0 +1,15 @@
+@startuml aggiungidispositivo
+title Aggiungi dispositivo
+
+start
+if (Admin autenticato?) then (no)
+    :Mostra messaggio di errore;
+    :Richiedi autenticazione;  
+    
+else (si)
+    :Seleziona il dispositivo da aggiungere;
+    :Aggiungi dispositivo al sistema;
+    :Dispositivo aggiunto;
+endif
+stop
+@enduml

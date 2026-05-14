@@ -1,0 +1,16 @@
+@startuml creazona
+title Crea zona
+
+start
+if (Admin autenticato?) then (no)
+    :Mostra messaggio di errore;
+    :Richiedi autenticazione;
+else (si)
+    :Seleziona "Crea nuova zona";
+    :Inserisci nome zona;
+    :Seleziona dispositivi da includere;
+    :Crea zona;
+    :Zona creata;
+endif
+stop
+@enduml

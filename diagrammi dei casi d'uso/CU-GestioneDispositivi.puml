@@ -1,0 +1,25 @@
+@startuml gestionedispositivi
+
+title "Gestione Dispositivi"
+left to right direction
+
+actor Utente
+actor Admin
+
+usecase "Aggiungi Dispositivo" as Aggiungi
+usecase "Rimuovi Dispositivo" as Rimuovi
+usecase "Visualizza Dati Dispositivo" as Visualizza
+usecase "Imposta Stato Attuatore" as Imposta
+usecase "Effettua Login" as Login
+
+Admin -- Aggiungi
+Admin -- Rimuovi
+Utente -- Imposta
+Utente -- Visualizza
+
+Aggiungi ..> Login: <<include>>
+Rimuovi ..> Login: <<include>>
+Visualizza ..> Login: <<include>>
+Imposta ..> Login: <<include>>
+
+@enduml

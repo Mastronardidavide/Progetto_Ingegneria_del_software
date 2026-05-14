@@ -1,0 +1,22 @@
+@startuml gestionesistema
+
+title "Gestione Sistema"
+left to right direction
+
+actor Tempo
+actor Admin
+
+usecase "Crea Log" as Crea
+usecase "Visualizza Log" as Visualizza
+usecase "Esegui Backup" as Esegui
+usecase "Ripristina Stato Sistema" as Ripristina
+usecase "Effettua Login" as Login
+
+Tempo -- Crea
+Tempo -- Esegui
+Tempo -- Ripristina
+Admin -- Visualizza
+
+Visualizza ..> Login: <<include>>
+
+@enduml

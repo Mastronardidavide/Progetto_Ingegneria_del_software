@@ -1,0 +1,15 @@
+@startuml riuovidispositivo
+title Rimuovi dispositivo
+
+start
+if (Admin autenticato?) then (no)
+    :Mostra messaggio di errore;
+    :Richiedi autenticazione;  
+    
+else (si)
+    :Seleziona il dispositivo da rimuovere;
+    :Rimuovi dispositivo dal sistema;
+    :Dispositivo rimosso;
+endif
+stop
+@enduml

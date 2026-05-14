@@ -1,0 +1,20 @@
+@startuml eliminazona
+title Elimina zona
+
+start
+if (Admin autenticato?) then (no)
+    :Mostra messaggio di errore;
+    :Richiedi autenticazione;  
+    
+else (si)
+    if (Zona esiste) then (si)
+        :Seleziona "Elimina zona";
+        :Seleziona zona;
+        :Elimina zona selezionata;
+        :Zona eliminata;
+    else (no)
+        :Mostra messaggio di errore;
+    endif
+endif
+stop
+@enduml

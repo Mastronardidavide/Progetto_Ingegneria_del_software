@@ -1,0 +1,15 @@
+@startuml creascenario
+title Crea scenario
+
+start
+if (Admin autenticato?) then (no)
+    :Mostra messaggio di errore;
+    :Richiedi autenticazione;  
+    
+else (si)
+    :Seleziona "Crea scenario";
+    :Configura lo stato di eventuali attuatori;
+    :Lo scenario viene creato;
+endif
+stop
+@enduml

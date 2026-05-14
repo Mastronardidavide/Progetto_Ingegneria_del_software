@@ -1,0 +1,14 @@
+@startuml impostastato
+title Imposta stato attuatore
+
+start
+if (l'utente è autenticato) then (no)
+    :Mostra messaggio di errore;
+    :Richiedi l'autenticazione;
+else (si)
+    :Seleziona attuatore;
+    :Imposta stato attuatore;
+    :Assume lo stato impostato;
+endif
+stop
+@enduml

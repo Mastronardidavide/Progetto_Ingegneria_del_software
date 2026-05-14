@@ -1,0 +1,19 @@
+@startuml personalizzadispositivozona
+title Personalizza dispositivo in Zona
+
+start
+if (Admin autenticato?) then (no)
+    :Mostra messaggio di errore;
+    :Richiedi autenticazione;  
+    
+else (si)
+    if (Zona esiste) then (si)
+        :Seleziona "Personalizza dispositivo zona";
+        :Seleziona zona;
+        :Inserisci i parametri da modificare;
+        :Aggiorna parametri dispositivo in zona;
+        :Parametri aggiornati;
+    else (no)
+        :Mostra messaggio di errore;
+    endif
+@enduml

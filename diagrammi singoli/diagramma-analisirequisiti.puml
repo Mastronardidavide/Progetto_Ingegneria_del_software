@@ -1,0 +1,60 @@
+@startuml analisireq
+title "Analisi dei requisiti"
+left to right direction
+<style>
+frame {
+    LineThickness 2
+}
+file {
+    LineThickness 1.5
+}
+card{
+    LineThickness 1
+}
+</style>
+
+frame "Analisi dei requisiti" {
+    file "Requisiti funzionali: descrivono le caratteristiche, le funzionalità generali ed \nil comportamento che il sistema proposto deve supportare" #FFFFFF {
+        file "Must have" #F5F1B3 {
+                card "RF1-Accesso utente" #DDF5D7
+                card "RF2-Backup dati" #DDF5D7
+                card "RF3-Gestione\nsoglie sensori" #DDF5D7
+                card "RF4-Attivazione\nauto attuatori" #DDF5D7
+                card "RF5-Disattivazione\nauto attuatori" #DDF5D7
+                card "RF6-Visualizza\nstato sensori" #DDF5D7
+                card "RF7-Visualizza\nstato attuatori" #DDF5D7
+                card "RF8-Pianificazione\nfasce orarie" #DDF5D7
+                card "RF9-Aggiunta\nnuovi dispositivi" #DDF5D7
+                card "RF10-Rimozione\ndispositivi" #DDF5D7
+                card "RF11-Controllo\nmanuale attuatori" #DDF5D7        
+        }
+        file "Should have" #F5F1B3 {
+                card "RF12-Configurazione\nnuovi account" #DDF5D7
+                card "RF13-Modifica\npermessi account" #DDF5D7
+                card "RF14-Eliminazione\naccount" #DDF5D7
+                card "RF15-Configurazione\nzone" #DDF5D7
+                card "RF16-Modifica stato\nattuatori zona" #DDF5D7
+                card "RF17-Visualizzazione\nsensori zona" #DDF5D7
+                card "RF20-Configurazione\nscenario" #DDF5D7
+                card "RF21-Modifica\nscenario" #DDF5D7
+                card "RF22-Eliminazione\nscenario" #DDF5D7
+                card "RF23-Esecuzione\nscenario" #DDF5D7
+        }
+        file "Could have" #F5F1B3 {
+                card "RF18-Notifica\nerrori sistema" #DDF5D7
+        }
+        file "Want to have" #F5F1B3 {
+                card "RF19-Monitoraggio\ndispositivi" #DDF5D7
+        }
+    }
+    file "Requisiti non funzionali: sono tutti gli altri vincoli \nche influenzano il sistema ed il suo sviluppo " #FFFFFF {
+        file "Requisiti non funzionali " #F5F1B3 {
+            card "RNF1-Temporizzatori" #DDF5D7
+            card "RNF2-Backup\ndati locali" #DDF5D7
+            card "RNF3-Ottimizzazione\nprestazioni" #DDF5D7
+            card "RNF4-Risparmio\nenergetico e report" #DDF5D7
+            card "RNF5-Interruttori\nfisici" #DDF5D7
+        }    
+    }
+}
+@enduml

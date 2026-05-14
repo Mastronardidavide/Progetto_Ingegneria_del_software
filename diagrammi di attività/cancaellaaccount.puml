@@ -1,0 +1,19 @@
+@startuml cancaellaaccount
+title Elimina account
+
+start
+if (Admin autenticato?) then (no)
+    :Mostra messaggio di errore;
+    :Richiedi autenticazione;  
+    
+else (si)
+    if (Account ospite esiste) then (si)
+        :Seleziona account ospite;
+        :Seleziona "Elimina account";
+        :Account eliminato;
+    else (no)
+        :Mostra messaggio di errore;
+    endif
+endif
+stop
+@enduml

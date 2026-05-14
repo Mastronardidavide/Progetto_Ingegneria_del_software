@@ -1,0 +1,16 @@
+@startuml visualizzadati
+title Visualizza dati dispositivo
+
+start
+if (Login effettuato?) then (no)
+    :Mostra messaggio di errore;
+    :Richiedi login;
+
+else (si)
+    :Seleziona dispositivo;
+    :Recupera dati dispositivo;
+    :Visualizza i dati del dispositivo;
+    :I dati sono stati rivelati;
+endif
+stop
+@enduml
