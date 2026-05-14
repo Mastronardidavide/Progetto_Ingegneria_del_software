@@ -1,4 +1,4 @@
-@startuml
+@startuml digrammacprogettazione
 title Smart Home diagramma di progettazione delle classi
 skinparam linetype ortho
 
