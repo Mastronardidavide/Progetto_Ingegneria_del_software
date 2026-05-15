@@ -5,7 +5,7 @@ nel nostro caso
 
 centralina diventa control, bisogna implementare un boundary come finestra che mi fa da tramite, mentre admin e ospite, quindi utente non sono classi. oppure sono classi che servono solo per salvare dati nelle repository
 
-gestore scenri è in associazione con scenari, da rivedere le associazioni
+gestore scenari è in associazione con scenari, da rivedere le associazioni
 
 lo scenario dovrebbe avere una lista di soglie o un dizionario che attribuisce ad ogni attuatore la propria soglia
 

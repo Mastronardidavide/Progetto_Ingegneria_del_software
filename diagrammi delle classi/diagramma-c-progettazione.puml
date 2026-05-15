@@ -101,7 +101,6 @@ package "Utenti" {
     abstract class Utente <<entity>> {
     -id: str
     -nome: str
-    + visualizzaDatiDispositivo(Dispositivo)
     + getId(Utente): str
     + getNome(Utente): str
     }
