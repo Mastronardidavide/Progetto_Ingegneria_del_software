@@ -6,8 +6,8 @@ package "Organizzazioni" {
     class Zona <<entity>> {
         - id: int
         - nome: str
-        + sogliaZona: float
-        +orarioZona: datetime
+        + sogliaZona: list
+        + orarioZona: datetime
         + getId(Zona): int
         + getNome(Zona): str       
     }
@@ -44,9 +44,9 @@ package "Dispositivi" {
         + getId(Dispositivo): str
     }
     class Sensore <<entity>> extends Dispositivo {
-        - soglia: float
-        + setSoglia(float): void
-        + getSoglia(Sensore): float
+        - soglie: list
+        + aggiungiSoglia(float): void
+        + getSoglie(): list
     }
     class Attuatore <<entity>> extends Dispositivo {
         - orarioAttivazione: datetime
@@ -101,6 +101,7 @@ package "Utenti" {
     abstract class Utente <<entity>> {
     -id: str
     -nome: str
+    + visualizzaDatiDispositivo(Dispositivo)
     + getId(Utente): str
     + getNome(Utente): str
     }

@@ -18,3 +18,5 @@ centralina diventa form perchè è boundary non control
 l'admin nei diagrammi di analisi sta per conto suo, centralina è proprio da togliere qua
 
 backup non ha bisogno di una repository, è la repository.
+
+libreria multithread per il tempo.
