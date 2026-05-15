@@ -20,3 +20,16 @@ l'admin nei diagrammi di analisi sta per conto suo, centralina è proprio da tog
 backup non ha bisogno di una repository, è la repository.
 
 libreria multithread per il tempo.
+
+L'interfaccia grafica deve richiamare delle funzioni dai controller, non può comprendere logica interna.
+al massimo può includere dei check sull'input dell'utente, 
+come controllare che l'utente abbia inserito una stringa di numeri e non di testo
+
+sys.exit serve a dire al sistema operativo che se l'utente esce dall'app, non c'è bisogno di continuare ad aspettarsi che interagisca
+
+quando si passa da form da terminale a interfaccia grafica, deve continuare a funzionare tutto come prima,
+senza bisogno di modificare controller o entity
+
+per l'implementazione del tempo si deve scaricare la libreria multithread
+
+git è il software per il versionamento, github è una piattaforma
