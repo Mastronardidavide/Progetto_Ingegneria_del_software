@@ -21,14 +21,8 @@ package "Organizzazioni" {
     }
 }
 
-package "Dati"{
-    class Backup <<entity>> {
-        - orario: datetime
-        - contenuto: str
-        + getOrarioBackup(Backup): datetime
-        + getContenuto(Backup): str
+package "Log"{
 
-    }
     class Log <<entity>> {
         - orario: datetime
         - errori: list
@@ -73,9 +67,9 @@ package "Gestione" {
         + modificaScenario(Scenario)
     }
     class GestoreDati <<control>>  {
-        + eseguiBackup(): Backup
+        + eseguiBackup(): dict
         + scriviLog(str): Log
-        + caricaBackup(Backup)
+        + caricaBackup(dict)
         + visualizzaLog(Log)
     }
     class GestoreUtenti <<control>> {
@@ -97,25 +91,16 @@ class Timer <<entity>>{
     getTime(): datetime
 }
 
-package "Utenti" {
-    abstract class Utente <<entity>> {
+    class Utente <<entity>> {
     -id: str
     -nome: str
-    + visualizzaDatiDispositivo(Dispositivo)
     + getId(Utente): str
     + getNome(Utente): str
     }
-    class Admin <<entity>> extends Utente {
-        + configuraElementoSistema()
-    }
-    class Ospite <<entity>> extends Utente
-    
-    interface Autenticabile {
-        + autentica(str, str): bool
-    }
-}
 
-class Centralina <<boundary>> {
+
+
+class Form <<boundary>> {
     + gestisciZone()
     + gestisciScenari()
     + gestisciUtenti()
@@ -126,26 +111,24 @@ class Centralina <<boundary>> {
 
 
 
-Admin --> Centralina : usa
+Utente --> Form : usa
 
-Centralina "1" o-down- "1" GestoreZone
-Centralina "1" o-down- "1" GestoreScenari
-Centralina "1" o-down- "1" GestoreUtenti
-Centralina "1" o-down- "1" GestoreDispositivi
-Centralina "1" o-down- "1" GestoreDati 
+Form "1" o-down- "1" GestoreZone
+Form "1" o-down- "1" GestoreScenari
+Form "1" o-down- "1" GestoreUtenti
+Form "1" o-down- "1" GestoreDispositivi
+Form "1" o-down- "1" GestoreDati
 
-GestoreZone "1" o-- "*" Zona
-GestoreScenari "1" o-- "*" Scenario
-GestoreDispositivi "1" o-- "*" Dispositivo
-GestoreDati "1" o-- "0..1" Backup
-GestoreDati "1" o-- "*" Log
+GestoreZone "1" *-- "*" Zona
+GestoreScenari "1" *-- "*" Scenario
+GestoreDispositivi "1" *-- "*" Dispositivo
+GestoreDati "1" *-- "*" Log
 
 Zona "1" o-- "*" Dispositivo
 Scenario "1" o-- "*" Dispositivo
-Autenticabile ..|> Utente
 
-Timer "1" --o "1" GestoreTempo
-Centralina "1" o-- "1" GestoreTempo
+Timer "1" --* "1" GestoreTempo
+Form "1" o-- "1" GestoreTempo
 
 
-@endum
+@enduml

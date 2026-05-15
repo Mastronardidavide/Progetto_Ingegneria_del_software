@@ -1,13 +1,11 @@
 @startuml classianalisi
-
+/'
+centralina sarebbe da eliminare ma poi si perdono le relazioni, devo sostituirla?
+'/
 title Smart Home diagramma delle classi di analisi
 
 class Utente {
     idUtente: String
-}
-
-class Centralina {
-
 }
 
 class Timer {
@@ -26,7 +24,6 @@ class Dispositivo {
     id: String
 }
 
-Utente "1" -- "1" Centralina : utilizza
 Centralina "1" -- "1" Timer : consulta
 Centralina "1" -- "0..*" Zona : coordina
 Centralina "1" -- "0..*" Scenario : esegue
