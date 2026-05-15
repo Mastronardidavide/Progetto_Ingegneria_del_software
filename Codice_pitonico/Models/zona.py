@@ -1,10 +1,11 @@
 from datetime import datetime
 class Zona:
-    def __init__(self, id: int, nome: str, sogliaZona: float, orarioZona: datetime ):
+    def __init__(self, id: int, nome: str, orarioZona: datetime, sogliaZona: list = None ):
+        self._id = id
         self._nome = nome
-        self._sogliaZona = sogliaZona
         self._orarioZona = orarioZona
-
+#inizializzo correttamente per evitare la condivisione della lista tra oggetti
+        self._soglieZona = sogliaZona if sogliaZona is not None else [] 
 #definisco i getter
 
 def getID(self) -> int: 
@@ -13,12 +14,16 @@ def getID(self) -> int:
 def getNome(self) -> str:
     return self._nome
 
-def getSogliaZona(self) -> float:
+def getSogliaZona(self) -> list:
     return self._sogliaZona
 
-def getorarioZona(self) -> str:
+def getorarioZona(self) -> datetime:
     return self._orarioZona
-
+#aggiungo elemetni alla lista
+def aggiungiSoglia(self, soglia: float) -> None:
+    if not isinstance(soglia, float):
+        raise TypeError("la soglia deve essere float")
+    self._soglieZona.append(soglia)
 # definisco la serializzazione per i file json
 
 def toDict(self) -> dict:

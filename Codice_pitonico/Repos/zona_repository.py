@@ -4,10 +4,10 @@ from Models.zona import Zona
 #regola scritta nel documento 1.3 Entry Point
 class ZonaRepository:
     def __init__(self, path: str = "Data/zona.json"):
-        self._path
+        self._path = path
         self._zone: dict = {} #dizionario che avrà come chiave l'ID.
         self.carica() #carica automaticamente i dati dal file JSON nella memoria del programma nel momento in cui lo avvio.
-#da qwui ho un metodo per trasformare i dati dal file Json e trasformarli in oggetti.
+#da qui ho un metodo per trasformare i dati dal file Json e trasformarli in oggetti.
     def carica(self) -> None:
         try:
             with open(self._path, "r", encoding = "utf-8") as f:
@@ -29,6 +29,10 @@ class ZonaRepository:
     def aggiungi(self, zona: Zona) -> None:
             self._zone[zona.getId()] = zona
             self.salva()  # Salva automaticamente nel file ogni volta che aggiungi una zona
-
     def tutte(self) -> list: #dall esempio anche del libro qui il nostro programma consegna una lista completa di tutti gli oggetti zona che sono caricati in memoria dal file.
             return list(self._zone.values())
+    def elimina(self, id: int) -> None:
+        #elimina un elemento e aggiorna il file
+        if id in self._zone:
+            del self._zone[id]
+            self.salva()
