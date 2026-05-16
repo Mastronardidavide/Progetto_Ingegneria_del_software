@@ -32,8 +32,9 @@ class GestoreDispositivi:
         if disp is None:
             return f"Errore: Dispositivo {id_disp} non trovato"
     # rimuovo il dispositivo nella ripository
-        self._dispositivo_repo.elimina(id_disp)
-        return f"Dispositivo {id_disp} rimosso con successo"
+        else:
+            self._dispositivo_repo.elimina(id_disp)
+            return f"Dispositivo {id_disp} rimosso con successo"
     
     #Caso d'uso: visualizza dati dispositivo
     def visualizzaDispositivo(self,id_disp: str):
