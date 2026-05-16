@@ -54,3 +54,8 @@ class UtenteRepository:
 
     def tutti(self) -> list:
         return list(self._utenti.values())
+
+    def elimina(self, id_utente: str) -> None:
+        if id_utente in self._utenti:
+            self._utenti.pop(id_utente)
+            self.salva()
