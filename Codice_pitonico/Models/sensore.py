@@ -6,20 +6,18 @@ class Sensore(Dispositivo):
         super().__init__(id)
         self._nome = nome
         #inizializzo la lista
-        self._soglia = soglia if soglia is not None else []
+        self._soglia = soglia
     
     
-    #def setSoglia(self, nuova_soglia: float) -> None:
-    #    self._soglia = nuova_soglia
-# ho commentato setsoglia perche secondo me si puo eliminare dato che se non facciamo aggiungi soglia
-# comunque ne settiamo una nuova.
+    def setSoglia(self, nuova_soglia: float) -> None:
+        self._soglia = nuova_soglia
 
-    def getSoglia(self) -> list:
+    def getSoglia(self) -> float:
         return self._soglia
     def aggiungiSoglia(self, soglia: float) -> None:
         # alzo l'errore se non è float
         if not isinstance(soglia, float):
-            raise TypeError("Ls soglia deve essere float")
+            raise TypeError("La soglia deve essere float")
         self._soglia.append(soglia)
 
     def toDict(self) -> dict:

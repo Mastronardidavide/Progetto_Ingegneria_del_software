@@ -45,3 +45,4 @@ class DispositivoRepository:
         if id_dispositivo in self._dispositivi:
             del self._dispositivi[id_dispositivo] 
             self.salva()
+#cosa cambia da backup e dispositovo repository?

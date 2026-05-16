@@ -16,12 +16,11 @@ class UtenteRepository:
                 dati = json.load(f) #questo ricostrusce gli oggetti usando il metodo fromDict.
                 self._utenti = {}
         #ricostruisco gli oggetti passando i parametri ai costruttori
-        for d in dati:
-            if d.get("ruolo") == "admin":
+            for d in dati:
+                if d.get("ruolo") == "admin":
                 utente = Admin(d["id"], d["nome"], d["password"])
             else:
                 utente = Ospite(d["id"], d["nome"], d["password"])
-
         except FileNotFoundError:
             self._utenti = {}     #da errore se il file non esiste ancora, come il primo avvio.
         
@@ -48,7 +47,7 @@ class UtenteRepository:
             return self._utenti.get(id_utente) #restituisce None se non lo trova
         
         def aggiungi(self, utente) -> None:
-            self._utenti[utente.getID()] = utente
+            self._utenti[utente.getId()] = utente
             self.salva()
 
         def tutti(self) -> list:

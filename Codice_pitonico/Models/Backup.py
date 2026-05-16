@@ -16,7 +16,6 @@ class Backup:
             "contenuto" : self._contenuto
         }
     #metodi della classe
-    
     @classmethod
     def fromDict(cls, d: dict) -> Backup:
         return cls(d["orario"], d["contenuto"])

@@ -32,4 +32,4 @@ senza bisogno di modificare controller o entity
 
 per l'implementazione del tempo si deve scaricare la libreria multithread
 
-git è il software per il versionamento, github è una piattaforma
+git è il software per il versionamento, github è una piattaforma web
