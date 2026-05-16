@@ -4,7 +4,7 @@ from Models.utente import Utente
 #quando uso una variabile, python la cerca in un ordine preciso
 from Models.sensore import Sensore
 from Models.attuatore import Attuatore
-class Admin(utente):
+class Admin(Utente):
     def __init__(self, id:str, nome:str, password: str):
         #utilizzo la funzione super() per irchiamare il costruttore della classe
         #genitore (utente) senza dover riscrivire self._id = id, ecc.
@@ -20,8 +20,4 @@ class Admin(utente):
             #utilizzo return f per il fatto dell' ECB e non i printf
         else:
             return "Dispositivo sconosciuto"
-        
-    def configuraElementoSistema(self):
-        #qui bisogna mettere la logica per la configuarazione
-        pass
     #Non mettiamo i toDict perche c'è l'ereditarieta data dalla superclasse Utente
