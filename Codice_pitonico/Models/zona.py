@@ -41,3 +41,6 @@ class Zona:
     #definisco il dunder per stampare le variabili, è opzionale e serve per passare un determinato valore, io lo metto per sicurezza poi da valutare se si deve togliere
     def __str__(self) -> str:
         return f"Zona {self._id}: {self._nome} (Soglia: {self._sogliaZona})"
+    
+    #sospetto che ci possa essere un problema nel fromDict, visto che prende l'orario caricato in memoria
+    #l'orario in memoria tuttavia era stato convertito a stringa

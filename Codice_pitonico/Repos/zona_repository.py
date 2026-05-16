@@ -24,13 +24,13 @@ class ZonaRepository:
 
 #Qui da altri metodi per interagire con le zone dal resto del programma, lo riporto ma si puo sempre eliminare se non serve. mi sono riferito all esempio del libro.
     def trovaPerId(self, id: int):
-            return self._zone.get(id)  # Restituisce None se non trova la zona
+        return self._zone.get(id)  # Restituisce None se non trova la zona
 
     def aggiungi(self, zona: Zona) -> None:
-            self._zone[zona.getId()] = zona
-            self.salva()  # Salva automaticamente nel file ogni volta che aggiungi una zona
+        self._zone[zona.getId()] = zona
+        self.salva()  # Salva automaticamente nel file ogni volta che aggiungi una zona
     def tutte(self) -> list: #dall esempio anche del libro qui il nostro programma consegna una lista completa di tutti gli oggetti zona che sono caricati in memoria dal file.
-            return list(self._zone.values())
+        return list(self._zone.values())
     def elimina(self, id: int) -> None:
         #elimina un elemento e aggiorna il file
         if id in self._zone:
