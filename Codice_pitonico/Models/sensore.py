@@ -1,4 +1,4 @@
-#se c'è ereditarietà devo importare qualcosa tipo dispositivo?
+#se c'è ereditarietà devo importare qualcosa tipo dispositivo? a
 
 class Sensore(Dispositivo):
     def __init__(self, id: str, nome:str, soglia: float):
