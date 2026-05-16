@@ -81,6 +81,7 @@ package "Gestione" {
         + aggiungiDispositivo(): Dispositivo
         + configuraDispositivo(Dispositivo)
         + rimuoviDispositivo(Dispositivo)
+        + visualizzaDispositivo(Dispositivo)
     }
     class GestoreTempo <<control>>{
         + checkOrario(getOrario)
