@@ -1,3 +1,4 @@
+#DA ELIMINARE PERCHè MANCA VISUALIZZADISPOSITIVI
 from datetime import time
 
 class GestoreDispositivi:
