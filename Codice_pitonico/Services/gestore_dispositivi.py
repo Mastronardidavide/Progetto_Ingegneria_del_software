@@ -42,13 +42,13 @@ class GestoreDispositivi:
             return f"Errore: Dispositivo {id_disp} non trovato"
         return disp #ritorna l'oggetto per poterlo visualizzare
     def configuraDispositivo(self, id: str, nuova_soglia: float = None, nuovo_stato: bool = None, nuovo_orario: time = None):
-        disp = self._dispositivi_repo.trovaPerId(id) #controllo che esista
+        disp = self._dispositivo_repo.trovaPerId(id) #controllo che esista
         if disp == None:
             return f"dispositivo non trovato"
         else:
             if isinstance(disp, Sensore):
                 disp.setSoglia(nuova_soglia)
-            else:
+            elif isinstance(disp, Attuatore):
                 disp.setStato(nuovo_stato)
                 disp.setOrario(nuovo_orario)
             return f"dispositivo riconfigurato"
