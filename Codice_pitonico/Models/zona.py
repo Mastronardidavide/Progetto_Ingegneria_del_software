@@ -31,7 +31,7 @@ class Zona:
             "id" : self._id,
             "nome" : self._nome,
             "sogliaZona" : self._sogliaZona,
-            "orarioZona" : self._orarioZona,
+            "orarioZona" : str(self._orarioZona),
         }
 
     @classmethod
