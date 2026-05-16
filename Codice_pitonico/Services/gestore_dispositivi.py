@@ -1,3 +1,4 @@
+from datetime import time
 from Models.sensore import Sensore
 from Models.attuatore import Attuatore
 
@@ -8,9 +9,9 @@ class GestoreDispositivi:
     # Aggiungo il caso d'uso : aggiungi dispositivo
     def aggiungiDispositivo(self, id_disp: str, tipo: str) -> str:
         # verifica preventiva presa fa GEstione prestiti
-        disp = self._dispositivo_repo.trovaPerID(id_disp)
+        disp = self._dispositivo_repo.trovaPerId(id_disp)
         if disp is not None:
-            return f"Errore: Dispositivo {id_disp} già presente"ù
+            return f"Errore: Dispositivo {id_disp} già presente"
         
         #creo L'entity in base al tipo richiesto
         if tipo == "Sensore":
@@ -40,3 +41,16 @@ class GestoreDispositivi:
         if disp is None:
             return f"Errore: Dispositivo {id_disp} non trovato"
         return disp #ritorna l'oggetto per poterlo visualizzare
+    def configuraDispositivo(self, id: str, nuova_soglia: float = None, nuovo_stato: bool = None, nuovo_orario: time = None):
+        disp = self._dispositivi_repo.trovaPerId(id) #controllo che esista
+        if disp == None:
+            return f"dispositivo non trovato"
+        else:
+            if isinstance(disp, Sensore):
+                disp.setSoglia(nuova_soglia)
+            else:
+                disp.setStato(nuovo_stato)
+                disp.setOrario(nuovo_orario)
+            return f"dispositivo riconfigurato"
+ #non sto violando l'OC? se venisse aggiunto un nuovo tipo di dispositivo il codice dovrebbe essere modificato
+ #LINE49
