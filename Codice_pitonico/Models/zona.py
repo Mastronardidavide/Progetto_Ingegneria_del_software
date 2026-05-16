@@ -1,6 +1,6 @@
-from datetime import datetime
+from datetime import time
 class Zona:
-    def __init__(self, id: int, nome: str, orarioZona: datetime, sogliaZona: list = None ):
+    def __init__(self, id: int, nome: str = None, orarioZona: time = None, sogliaZona: list = None ):
         self._id = id
         self._nome = nome
         self._orarioZona = orarioZona
@@ -8,7 +8,7 @@ class Zona:
         self._sogliaZona = sogliaZona if sogliaZona is not None else [] 
     #definisco i getter
 
-    def getID(self) -> int: 
+    def getId(self) -> int: 
         return self._id
 
     def getNome(self) -> str:
@@ -17,7 +17,7 @@ class Zona:
     def getSogliaZona(self) -> list:
         return self._sogliaZona
 
-    def getorarioZona(self) -> datetime:
+    def getorarioZona(self) -> time:
         return self._orarioZona
     #aggiungo elemetni alla lista
     def aggiungiSoglia(self, soglia: float) -> None:
@@ -36,7 +36,7 @@ class Zona:
 
     @classmethod
     def fromDict(cls, d: dict) -> "Zona":
-        return cls(d["id"], d["nome"], d["sogliaZona"], d["orarioZona"])
+        return cls(d["id"], d["nome"], d["orarioZona"], d["sogliaZona"])
 
     #definisco il dunder per stampare le variabili, è opzionale e serve per passare un determinato valore, io lo metto per sicurezza poi da valutare se si deve togliere
     def __str__(self) -> str:
