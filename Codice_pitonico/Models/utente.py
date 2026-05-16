@@ -20,6 +20,7 @@ class Utente():
     def autentica(self, utente: str, password: str) -> bool:
         return self._nome == utente and self._password == password #DA IMPLEMENTARE IN GESTORE UTENTI
 #non posso usare isinstance perche violiamo il principio di SOLID, Open/ Closed
-    @classmethod
+    @classmethod #definisce un metodo che non riceve la singola istanza dell oggetto come primo argomento
+    #ma riceve la classe stessa (cls).
     def fromDict(cls, d: dict) -> "Utente":
         return cls(d["id"], d["nome"])
