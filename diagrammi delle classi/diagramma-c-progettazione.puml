@@ -55,7 +55,6 @@ package "Dispositivi" {
 package "Gestione" {
     class GestoreZone <<control>> {
         + creaZona(): Zona
-        + modificaZona(Zona)
         + visualizzaZona(Zona)
         + personalizzaDispositivo(Dispositivo, Zona)
         + eliminaZona(Zona)

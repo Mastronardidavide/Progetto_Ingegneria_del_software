@@ -31,6 +31,7 @@ class ZonaRepository:
         self.salva()  # Salva automaticamente nel file ogni volta che aggiungi una zona
     def tutte(self) -> list: #dall esempio anche del libro qui il nostro programma consegna una lista completa di tutti gli oggetti zona che sono caricati in memoria dal file.
         return list(self._zone.values())
+    
     def elimina(self, id: int) -> None:
         #elimina un elemento e aggiorna il file
         if id in self._zone:

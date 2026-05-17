@@ -18,3 +18,10 @@ class GestoreZona:
         else:
             self._zona_repo.elimina(id)
             return("Zona eliminata")
+    def visualizzaZona(self, id:int):
+        zona_vis = self._zona_repo.trovaPerId(id)
+        if zona_vis is None:
+            return f"Zona non trovata"
+        else:
+            return(zona_vis)
+    def modificaZona(self, id:str)
