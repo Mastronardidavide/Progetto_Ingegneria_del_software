@@ -7,7 +7,7 @@ class GestoreUtenti:
     def creaAccount(self, id: str, nome: str, pswd: str):
         utente = self._utenti_repo.trovaPerId(id)
         if utente is None:
-            nuovo_utente = Utente(id, nome, pswd)
+            nuovo_utente = Utente(id, nome, pswd, "Ospite") #qui è importante specificare Ospite perchè ci sono 4 argomenti obbligatori, un nuovo utente creato sarà sempre infatti ospite
             self._utenti_repo.aggiungi(nuovo_utente)
             return f"Utente creato"
         else:
@@ -20,3 +20,14 @@ class GestoreUtenti:
         else:
             self._utenti_repo.elimina(id)
             return f"L'utente è stato eliminato"
+        #da qui in poi
+    def login(self, id: str, nome: str, pswd: str):
+        utente = self._utenti_repo.trovaPerId(id) # cerco l'utente tramite l'ID
+        if utente is None:
+            return f"Errore: utente non trovato"
+        
+        # delego il controllo delle credenziali all'utente stesso, ritorna un booleano
+        if utente.autentica(nome, pswd):
+            return f"Accesso consentito. Benvenuto {utente.getNome()} ({utente.getTipo()})"
+        else:
+            return f"Errore: Password o Nome utente errati"
