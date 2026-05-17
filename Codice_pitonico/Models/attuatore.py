@@ -1,3 +1,4 @@
+from Models.dispositivo import Dispositivo
 from datetime import time
 
 class Attuatore(Dispositivo): #eredita da dispositivo
