@@ -1,12 +1,12 @@
 from datetime import datetime
 
 class Attuatore(Dispositivo): #eredita da dispositivo
-    def __init__(self, id: str, nome:str, orarioAttivazione: datetime, statoAttuatore: bool):
+    def __init__(self, id: str,tipo :str, nome:str = None, orarioAttivazione: datetime = None, statoAttuatore: bool = None):
         
-        super().__init__(id)
+        super().__init__(id, tipo)
         self._nome = nome
         self._orarioAttivazione = orarioAttivazione
-        self._statoAttuatore = statoAttuatore
+        self._statoAttuatore = statoAttuatore #forse si deve inizializzare a uno stato spento?
 
     #passo a dizionario
     def toDict(self) -> dict:

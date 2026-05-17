@@ -35,16 +35,20 @@ package "Log"{
 package "Dispositivi" {
     abstract class Dispositivo <<entity>> {
         - id: str
+        -tipo: str
         + getId(Dispositivo): str
+        + getTipo(Dispositivo): str
     }
     class Sensore <<entity>> extends Dispositivo {
         - soglie: list
+        - tipo: str
         + aggiungiSoglia(float): void
         + getSoglie(): list
     }
     class Attuatore <<entity>> extends Dispositivo {
         - orarioAttivazione: datetime
         - statoAttuatore: bool
+        - tipo: str
         + setOrario(orarioAttivazione): void
         + getStato(Attuatore): bool
         + getOrario(Attuatore): datetime

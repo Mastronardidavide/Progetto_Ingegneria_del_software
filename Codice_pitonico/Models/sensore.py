@@ -1,24 +1,21 @@
 #se c'è ereditarietà devo importare qualcosa tipo dispositivo? a
 
 class Sensore(Dispositivo):
-    def __init__(self, id: str, nome:str, soglia: float):
+    def __init__(self, id: str,tipo : str, nome:str = None, soglia: float = None):
         
-        super().__init__(id)
+        super().__init__(id, tipo)
         self._nome = nome
         #inizializzo la lista
         self._soglia = soglia
-    
-    
-    def setSoglia(self, nuova_soglia: float) -> None:
-        self._soglia = nuova_soglia
 
     def getSoglia(self) -> float:
         return self._soglia
-    def aggiungiSoglia(self, soglia: float) -> None:
+    def setSoglia(self, nuova_soglia: float) -> None:
         # alzo l'errore se non è float
-        if not isinstance(soglia, float):
+        if not isinstance(nuova_soglia, float):
             raise TypeError("La soglia deve essere float")
-        self._soglia.append(soglia)
+        else:
+            self._soglia = nuova_soglia
 
     def toDict(self) -> dict:
         return {"id": self._id, "nome": self._nome, "soglia": self._soglia}
