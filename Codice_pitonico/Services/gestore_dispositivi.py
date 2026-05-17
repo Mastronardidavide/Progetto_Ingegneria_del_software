@@ -15,9 +15,9 @@ class GestoreDispositivi:
         
         #creo L'entity in base al tipo richiesto
         if tipo == "Sensore":
-            nuovo_disp = Sensore(id_disp)
+            nuovo_disp = Sensore(id_disp, tipo)
         elif tipo == "Attuatore":
-            nuovo_disp = Attuatore(id_disp)
+            nuovo_disp = Attuatore(id_disp, tipo)
         else:
             return ("Errore: Tipo dispositivo non valido")
         

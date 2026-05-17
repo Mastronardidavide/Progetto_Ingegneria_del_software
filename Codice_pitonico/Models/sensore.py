@@ -18,11 +18,11 @@ class Sensore(Dispositivo):
             self._soglia = nuova_soglia
 
     def toDict(self) -> dict:
-        return {"id": self._id, "nome": self._nome, "soglia": self._soglia}
+        return {"id": self._id, "tipo": self._tipo,"nome": self._nome, "soglia": self._soglia}
     
     @classmethod
     def fromDict(cls, d:dict) -> "Sensore":
-        return cls(d["id"], d["nome"], d["soglia"])
+        return cls(d["id"],d["tipo"], d["nome"], d["soglia"])
     #uso un dunder method per stampare i dati
     def __str__(self) -> str:
         return f"Sensore {self._id} (Soglie: {self._soglia})"

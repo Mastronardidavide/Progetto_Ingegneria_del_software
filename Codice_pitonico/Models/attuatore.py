@@ -1,7 +1,7 @@
-from datetime import datetime
+from datetime import time
 
 class Attuatore(Dispositivo): #eredita da dispositivo
-    def __init__(self, id: str,tipo :str, nome:str = None, orarioAttivazione: datetime = None, statoAttuatore: bool = None):
+    def __init__(self, id: str,tipo :str, nome:str = None, orarioAttivazione: time = None, statoAttuatore: bool = None):
         
         super().__init__(id, tipo)
         self._nome = nome
@@ -10,13 +10,17 @@ class Attuatore(Dispositivo): #eredita da dispositivo
 
     #passo a dizionario
     def toDict(self) -> dict:
-        return {"id": self._id, "nome": self._nome, "orario": self._orarioAttivazione, "stato": self._statoAttuatore}
+        return {"id": self._id,
+                "tipo": self._tipo,
+                "nome": self._nome,
+                "orarioAttivazione": self._orarioAttivazione.isoformat() if self._orarioAttivazione else None, 
+                "stato": self._statoAttuatore}
     
     #definisco i metodi della classe
-    def setOrario(self, nuovo_orario: datetime) -> None:
+    def setOrario(self, nuovo_orario: time) -> None:
         self._orarioAttivazione = nuovo_orario
 
-    def getOrario(self) -> datetime:
+    def getOrario(self) -> time:
         return self._orarioAttivazione
     
     def getStato(self) -> bool:
@@ -28,4 +32,6 @@ class Attuatore(Dispositivo): #eredita da dispositivo
     #passo a oggetto da dizionario
     @classmethod
     def fromDict(cls, d:dict) -> "Attuatore":
-        return cls(d["id"], d["nome"], d["orario"], d["stato"])
+        orario_str = d["orarioAttivazione"]
+        orarioRiconvertito = time.fromisoformat(orario_str) if orario_str is not None else None
+        return cls(d["id"], d["tipo"], d["nome"], orarioRiconvertito, d["stato"])
