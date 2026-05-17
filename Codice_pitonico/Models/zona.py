@@ -31,16 +31,16 @@ class Zona:
             "id" : self._id,
             "nome" : self._nome,
             "sogliaZona" : self._sogliaZona,
-            "orarioZona" : str(self._orarioZona),
+            "orarioZona": self._orarioZona.isoformat() if self._orarioZona else None, #converto da time a str così che possa essere elaborato dal dict
         }
 
     @classmethod
     def fromDict(cls, d: dict) -> "Zona":
-        return cls(d["id"], d["nome"], d["orarioZona"], d["sogliaZona"])
+        orario_str = d["orarioZona"]
+        orarioRiconvertito = time.fromisoformat(orario_str) if orario_str is not None else None
+        return cls(d["id"], d["nome"], orarioRiconvertito, d["sogliaZona"]) #riconverto da str a time
 
     #definisco il dunder per stampare le variabili, è opzionale e serve per passare un determinato valore, io lo metto per sicurezza poi da valutare se si deve togliere
     def __str__(self) -> str:
         return f"Zona {self._id}: {self._nome} (Soglia: {self._sogliaZona})"
     
-    #sospetto che ci possa essere un problema nel fromDict, visto che prende l'orario caricato in memoria
-    #l'orario in memoria tuttavia era stato convertito a stringa
