@@ -53,5 +53,6 @@ class GestoreDispositivi:
                 disp.setStato(nuovo_stato)
                 disp.setOrario(nuovo_orario)
             return f"dispositivo riconfigurato"
- #non sto violando l'OC? se venisse aggiunto un nuovo tipo di dispositivo il codice dovrebbe essere modificato
+ #violazione controllata di OC: non ci aspettiamo che venga inventato un nuovo tipo di dispositivo in futuro, quindi sviluppiamo il sistema
+ #sulla base di sensore e attuatore
  #LINE49
