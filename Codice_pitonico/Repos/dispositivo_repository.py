@@ -25,7 +25,7 @@ class DispositivoRepository:
                         self._dispositivi[disp.getId()] = disp
 
         except FileNotFoundError:
-            self._dispositivi{}
+            self._dispositivi = {}
     
     def salva(self) -> None:
         with open(self._path, "w", encoding="utf-8") as f:
