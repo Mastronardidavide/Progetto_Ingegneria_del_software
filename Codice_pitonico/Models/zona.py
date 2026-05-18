@@ -17,7 +17,7 @@ class Zona:
     def getSogliaZona(self) -> list:
         return self._sogliaZona
 
-    def getorarioZona(self) -> time:
+    def getOrarioZona(self) -> time:
         return self._orarioZona
     #aggiungo elemetni alla lista
     def aggiungiSoglia(self, soglia: float) -> None:
