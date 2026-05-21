@@ -25,5 +25,5 @@ class GestoreScenario:
             return f"Scenario non trovato"
         else:
             return scenario_vis
-    def personalizzaDispositivoScenario(self, id:str): #
+    def setOrarioScenario(self, Scenario, nuovoOrario):
         

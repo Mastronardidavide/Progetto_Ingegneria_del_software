@@ -33,3 +33,17 @@ senza bisogno di modificare controller o entity
 per l'implementazione del tempo si deve scaricare la libreria multithread
 
 git è il software per il versionamento, github è una piattaforma web
+
+basta lo screen dell'interfaccia grafica, senza mockup
+
+al progetto apre il codice e lo fa runnare al di fuori dei 10 min. può rispondere solo 1.
+
+il ppt e/o la documentazione UML dovrebbe includere screen anche dell'intefraccia grafica, di diagrammi e del codice.
+ il ppt non deve includere tutti i diagrammi, ma solo alcuni casi d'uso importanti
+
+ versionare vuol dire mantenere traccia dei cambiamenti che avvengono nel progetto, in generale quando chiede git bastano le due slide teoriche 
+tipo cos'è commit e ste cose
+
+ nel read me bisogna scrivere il progetto è così bla bla e si fa partire così
+
+ ebuè
