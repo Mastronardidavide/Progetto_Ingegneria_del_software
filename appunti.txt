@@ -46,4 +46,6 @@ tipo cos'è commit e ste cose
 
  nel read me bisogna scrivere il progetto è così bla bla e si fa partire così
 
- ebuè
+ dai progetti
+ slide 1 di presentazione del progetto,slide 2 su come è stato fatto il progetto (avvio, e ste cose), slide 3 au come è suddiviso il lavoro, slide 4 architettura di sistema trmite diagrmma di classi di progettazione
+ slide 5 sull'interfcci grafica, slide 6 diagramma di sequenza, focus su ECB.
