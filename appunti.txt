@@ -51,4 +51,4 @@ tipo cos'è commit e ste cose
  slide 5 sull'interfcci grafica, slide 6 diagramma di sequenza, focus su ECB, focus sulla prestazione e un occhiata su i mock up, demo e dimostrazione dle programma, ha chiesto la parte del codice uml e del python
  e la dismostrazione del qr code. commento 2 minuti dell implementazione del codice QR.
 
- 
+ eliminare metodo modificapermessi, sogliascenari
