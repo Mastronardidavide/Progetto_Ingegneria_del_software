@@ -1,7 +1,7 @@
 import time
 from Repos.backup_repository import BackupRepository
 from Services.gestore_dati import GestoreDati
-from Services.timer_generico import TimerGenerico
+from Views.timer import Timer
 
 def main():
     print("--- 🏠 AVVIO CONFIGURAZIONE SMART HOME (TEST CLI) ---")
@@ -13,7 +13,7 @@ def main():
     # 2. Ripristino dati
     dati_salvati = g_dati.recupera_contenuto_backup()
     if dati_salvati:
-        print(f"[Ripristino] STATO RECONSTRUITO: '{dati_salvati}'")
+        print(f"[Ripristino] Stato ripristinato tramite backup: '{dati_salvati}'")
     else:
         print("[Ripristino] Nessun backup trovato. Avvio standard.")
 
@@ -23,7 +23,7 @@ def main():
         g_dati.esegui_backup(stato_simulato)
 
     # 4. Avvio Timer (ogni 5 secondi per il test)
-    timer_backup = TimerGenerico(azione_da_eseguire=cattura_e_salva_stato, intervallo_secondi=5)
+    timer_backup = Timer(azione_da_eseguire=cattura_e_salva_stato, intervallo_secondi=5)
     timer_backup.avvia()
     print("[Sistema] Timer in background avviato con successo.")
 
