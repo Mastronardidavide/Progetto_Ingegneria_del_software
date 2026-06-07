@@ -17,14 +17,14 @@ class DispositivoRepository:
                 #faccio un iterazione sulla lista di dizionari caricati dal json
                 for d in dati:
                     #controllo il "tipo" per instanziare l'oggetto corretto
-                    if d.get("tipo") == "Sensore":
+                    if d.get("tipo") == "sensore":
                         disp = Sensore.fromDict(d)
                         self._dispositivi[disp.getId()] = disp
-                    elif d.get("tipo") == "Attuatore":
+                    elif d.get("tipo") == "attuatore":
                         disp = Attuatore.fromDict(d)
                         self._dispositivi[disp.getId()] = disp
 
-        except FileNotFoundError:
+        except (FileNotFoundError, json.JSONDecodeError):
             self._dispositivi = {}
     
     def salva(self) -> None:

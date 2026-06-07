@@ -9,24 +9,30 @@ class GestoreDispositivi:
     def __init__(self, dispositivo_repo):
         self._dispositivo_repo = dispositivo_repo
 
-    # Aggiungo il caso d'uso : aggiungi dispositivo
-    def aggiungiDispositivo(self, id_disp: str, tipo: str) -> str:
-        # verifica preventiva presa fa GEstione prestiti
+    # Caso d'uso: aggiungi dispositivo esteso con tutti i parametri necessari (kwargs) in modo da poter gestire sensori e attuatori con un unico metodo, evitando duplicazioni di codice
+    def aggiungiDispositivo(self, id_disp: str, tipo: str, nome: str, 
+                           soglia: float = None, 
+                           stato: bool = False, 
+                           orario: time = None) -> str:
+        
         disp = self._dispositivo_repo.trovaPerId(id_disp)
         if disp is not None:
             return f"Errore: Dispositivo {id_disp} già presente"
+        
+        # Creazione dell'Entity specifica in base al tipo richiesto
+        if tipo == "sensore":
+            nuovo_disp = Sensore(id=id_disp, tipo=tipo, nome=nome, soglia=soglia)
+            
+        elif tipo == "attuatore":
+            nuovo_disp = Attuatore(id=id_disp, tipo=tipo, nome=nome, 
+                                   orarioAttivazione=orario, statoAttuatore=stato)
         else:
-        #creo L'entity in base al tipo richiesto
-            if tipo == "sensore":
-                nuovo_disp = Sensore(id_disp, tipo)
-                self._dispositivo_repo.aggiungi(nuovo_disp) #lo aggiungo alla repository
-                return f"{tipo} {id_disp} aggiunto con successo"
-            elif tipo == "attuatore":
-                nuovo_disp = Attuatore(id_disp, tipo)
-                self._dispositivo_repo.aggiungi(nuovo_disp) #lo aggiungo alla repository
-                return f"{tipo} {id_disp} aggiunto con successo"
-            else:
-                return ("Errore: Tipo dispositivo non valido")
+            return "Errore: Tipo dispositivo non valido"
+        # Aggiunta alla repository (salva in automatico nel file JSON)
+        self._dispositivo_repo.aggiungi(nuovo_disp)
+        
+        return f"{tipo} {id_disp} ({nome}) aggiunto con successo"
+
         
     #Caso d'uso rimuovi dispositivo
     def rimuoviDispositivo(self, id_disp: str) -> str:
@@ -93,7 +99,13 @@ class GestoreDispositivi:
             print("Nessun dispositivo presente")
         else:
             for dispositivo in self._dispositivo_repo.tutte():
-                print(f"- ID: {dispositivo.getId()}, Tipo: {dispositivo._tipo}")
+                if isinstance(dispositivo, Sensore):
+                    print(f"- ID: {dispositivo.getId()}, Tipo: {dispositivo._tipo}, Soglia: {dispositivo.getSoglia()}")
+                elif isinstance(dispositivo, Attuatore):
+                    print(f"- ID: {dispositivo.getId()}, Tipo: {dispositivo._tipo}, Orario: {dispositivo.getOrario()}, Stato: {dispositivo.getStato()}")
+    
+    def tutte_to_dict(self):
+        return [d.toDict() for d in self._dispositivo_repo.tutte()]
  #violazione controllata di OC: non ci aspettiamo che venga inventato un nuovo tipo di dispositivo in futuro, quindi sviluppiamo il sistema
  #sulla base di sensore e attuatore
  #LINE49

@@ -13,7 +13,7 @@ class BackupRepository:
             with open(self._path, "r", encoding="utf-8") as f:
                 # Carica direttamente il singolo dizionario del backup
                 self._backup_corrente = json.load(f)
-        except FileNotFoundError:
+        except (FileNotFoundError, json.JSONDecodeError):
             self._backup_corrente = {} # Se il file non esiste, il backup parte vuoto
 
     def salva(self) -> None:
