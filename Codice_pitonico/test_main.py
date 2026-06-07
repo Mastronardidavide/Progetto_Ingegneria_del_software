@@ -5,7 +5,7 @@ from datetime import datetime
 from Repos.dispositivo_repository import DispositivoRepository
 from Services.gestore_dati import GestoreDati
 from Services.gestore_dispositivi import GestoreDispositivi
-from Views.imer import Timer
+from Views.Timer import Timer
 
 def main():
     print("Avvio")
