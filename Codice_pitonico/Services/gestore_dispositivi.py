@@ -15,18 +15,19 @@ class GestoreDispositivi:
         disp = self._dispositivo_repo.trovaPerId(id_disp)
         if disp is not None:
             return f"Errore: Dispositivo {id_disp} già presente"
-        
-        #creo L'entity in base al tipo richiesto
-        if tipo == "Sensore":
-            nuovo_disp = Sensore(id_disp, tipo)
-        elif tipo == "Attuatore":
-            nuovo_disp = Attuatore(id_disp, tipo)
         else:
-            return ("Errore: Tipo dispositivo non valido")
+        #creo L'entity in base al tipo richiesto
+            if tipo == "sensore":
+                nuovo_disp = Sensore(id_disp, tipo)
+                self._dispositivo_repo.aggiungi(nuovo_disp) #lo aggiungo alla repository
+                return f"{tipo} {id_disp} aggiunto con successo"
+            elif tipo == "attuatore":
+                nuovo_disp = Attuatore(id_disp, tipo)
+                self._dispositivo_repo.aggiungi(nuovo_disp) #lo aggiungo alla repository
+                return f"{tipo} {id_disp} aggiunto con successo"
+            else:
+                return ("Errore: Tipo dispositivo non valido")
         
-        #aggiungo il dispositivo alla repository
-        self._dispositivo_repo.aggiungi(nuovo_disp)
-        return f"{tipo} {id_disp} aggiunto con successo"
     #Caso d'uso rimuovi dispositivo
     def rimuoviDispositivo(self, id_disp: str) -> str:
         #recupero l'oggetto prima di rimuoverlo
@@ -45,6 +46,7 @@ class GestoreDispositivi:
         if disp is None:
             return f"Errore: Dispositivo {id_disp} non trovato"
         return disp #ritorna l'oggetto per poterlo visualizzare
+    
     def configuraDispositivo(self, id: str, nuova_soglia: float = None, nuovo_stato: bool = None, nuovo_orario: time = None):
         disp = self._dispositivo_repo.trovaPerId(id) #controllo che esista
         if disp == None:
@@ -61,9 +63,7 @@ class GestoreDispositivi:
     def check_attuatori(self):
     # Preleviamo l'orario attuale del sistema (ore, minuti, secondi)
         ora_attuale = datetime.now().time()
-        print(f"\nControllo attivazione attuatori (Ora attuale: {ora_attuale.strftime('%H:%M:%S')})")
-    
-# Scorriamo tutti i dispositivi presenti nella repository
+    # Scorriamo tutti i dispositivi presenti nella repository
         for dispositivo in self._dispositivo_repo.tutte():
             # Filtriamo: controlliamo se l'oggetto estratto è un Attuatore
             if isinstance(dispositivo, Attuatore):
@@ -80,7 +80,6 @@ class GestoreDispositivi:
                         self._dispositivo_repo.salva() 
 
     def check_sensori(self):
-        print("\nControllo soglie sensori")
         for dispositivo in self._dispositivo_repo.tutte():
             if isinstance(dispositivo, Sensore):
                 soglia = dispositivo.getSoglia()

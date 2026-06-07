@@ -29,21 +29,19 @@ def main():
         g_dati.esegui_backup(stato_simulato)
 
     # Avvio timer
-    timer_backup = Timer(azione_da_eseguire=backup, intervallo_secondi=5)
+    timer_backup = Timer(azione_da_eseguire=backup, intervallo_secondi=360)
     timer_backup.avvia()
     print("Controllo backup avviato con successo.")
 
-    timer_attuatori = Timer(azione_da_eseguire=g_disp.check_attuatori, intervallo_secondi=10)
+    timer_attuatori = Timer(azione_da_eseguire=g_disp.check_attuatori, intervallo_secondi=3)
     timer_attuatori.avvia()
-    print("Controllo attuatori avviato.")
 
-    timer_sensori = Timer(azione_da_eseguire = g_disp.check_sensori, intervallo_secondi=15)
+    timer_sensori = Timer(azione_da_eseguire = g_disp.check_sensori, intervallo_secondi=3)
     timer_sensori.avvia()
-    print("Controllo sensori avviato.")
 
     # 5. Interazione
     print("\n=======================================================")
-    print("Comandi disponibili: 'stato' (mostra JSON), 'esci', 'lista' (mostra dispositivi)")
+    print("Comandi disponibili: \n'stato' (mostra JSON) \n'esci' \n'lista' (mostra dispositivi)\n'aggiungi' (aggiungi dispositivo) \n'rimuovi' (rimuovi dispositivo) \n'configura' (configura dispositivo)")
     print("=======================================================\n")
 
 
@@ -59,6 +57,11 @@ def main():
             print(f"\n[Dati in Memoria] {backup_repo.getBackup()}\n")
         elif comando == "lista":
             g_disp.lista()
+        elif comando == "aggiungi":
+            id = input("ID dispositivo: ").strip()
+            tipo = input("Tipo dispositivo (Sensore/Attuatore): ").strip()
+            feedback = g_disp.aggiungiDispositivo(id, tipo)
+            print(feedback)
         else:
             print(f"Comando '{comando}' non riconosciuto.")
 
