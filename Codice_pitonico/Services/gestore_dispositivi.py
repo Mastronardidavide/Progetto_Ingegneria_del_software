@@ -1,11 +1,14 @@
 from datetime import time
 from Models.sensore import Sensore
 from Models.attuatore import Attuatore
+from datetime import datetime
+import random
 
 class GestoreDispositivi:
     #utilizzo la Dependency Inversion: il control riceve la repository dal main
     def __init__(self, dispositivo_repo):
         self._dispositivo_repo = dispositivo_repo
+
     # Aggiungo il caso d'uso : aggiungi dispositivo
     def aggiungiDispositivo(self, id_disp: str, tipo: str) -> str:
         # verifica preventiva presa fa GEstione prestiti
@@ -52,7 +55,46 @@ class GestoreDispositivi:
             elif isinstance(disp, Attuatore):
                 disp.setStato(nuovo_stato)
                 disp.setOrario(nuovo_orario)
+            self._dispositivo_repo.salva() #salvo le modifiche
             return f"dispositivo riconfigurato"
+
+    def check_attuatori(self):
+    # Preleviamo l'orario attuale del sistema (ore, minuti, secondi)
+        ora_attuale = datetime.now().time()
+        print(f"\nControllo attivazione attuatori (Ora attuale: {ora_attuale.strftime('%H:%M:%S')})")
+    
+# Scorriamo tutti i dispositivi presenti nella repository
+        for dispositivo in self._dispositivo_repo.tutte():
+            # Filtriamo: controlliamo se l'oggetto estratto è un Attuatore
+            if isinstance(dispositivo, Attuatore):
+                orario_soglia = dispositivo.getOrario()
+                
+                # Se l'attuatore ha un orario impostato ed è attualmente spento (False o None)
+                if orario_soglia is not None and not dispositivo.getStato():
+                    # Confrontiamo se l'ora attuale ha superato o raggiunto la soglia
+                    if ora_attuale >= orario_soglia:
+                        print(f"L'attuatore ID '{dispositivo.getId()}' ({dispositivo._nome}) "
+                                f"ha superato la soglia delle {orario_soglia.strftime('%H:%M:%S')}. Cambio stato!")
+                        
+                        dispositivo.cambiaStato()  # Lo accendiamo (fai il toggle a True)
+                        self._dispositivo_repo.salva() 
+
+    def check_sensori(self):
+        print("\nControllo soglie sensori")
+        for dispositivo in self._dispositivo_repo.tutte():
+            if isinstance(dispositivo, Sensore):
+                soglia = dispositivo.getSoglia()
+                if soglia is not None:
+                    lettura_corrente = round(random.uniform(10.0, 30.0), 1) # Simulazione di una lettura casuale tra 10 e 30 in float
+                    if lettura_corrente > soglia:
+                        print(f"Il sensodre ID 'f{dispositivo.getId()}' ({dispositivo._nome}) ha superato la soglia")
+    def lista(self):
+        print("\nLista dispositivi:")
+        if self._dispositivo_repo.tutte() == []:
+            print("Nessun dispositivo presente")
+        else:
+            for dispositivo in self._dispositivo_repo.tutte():
+                print(f"- ID: {dispositivo.getId()}, Tipo: {dispositivo._tipo}")
  #violazione controllata di OC: non ci aspettiamo che venga inventato un nuovo tipo di dispositivo in futuro, quindi sviluppiamo il sistema
  #sulla base di sensore e attuatore
  #LINE49
