@@ -17,5 +17,11 @@
     "tipo": "sensore",
     "nome": "dio",
     "soglia": 22.0
+  },
+  {
+    "id": "2",
+    "tipo": "sensore",
+    "nome": "marvo",
+    "soglia": 20.0
   }
 ]

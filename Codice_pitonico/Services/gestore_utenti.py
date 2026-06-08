@@ -1,4 +1,5 @@
 from Models.utente import Utente
+from Repos.utente_repository import UtenteRepository
 
 class GestoreUtenti:
     def __init__(self, utenti_repo):
@@ -7,7 +8,8 @@ class GestoreUtenti:
     def creaAccount(self, id: str, nome: str, pswd: str):
         utente = self._utenti_repo.trovaPerId(id)
         if utente is None:
-            nuovo_utente = Utente(id, nome, pswd, "Ospite") #qui è importante specificare Ospite perchè ci sono 4 argomenti obbligatori, un nuovo utente creato sarà sempre infatti ospite
+            nuovo_utente = Utente(id, nome, pswd, "Ospite")
+             #qui è importante specificare Ospite perchè ci sono 4 argomenti obbligatori, un nuovo utente creato sarà sempre infatti ospite
             self._utenti_repo.aggiungi(nuovo_utente)
             return f"Utente creato"
         else:
@@ -31,3 +33,6 @@ class GestoreUtenti:
             return f"Accesso consentito. Benvenuto {utente.getNome()} ({utente.getTipo()})"
         else:
             return f"Errore: Password o Nome utente errati"
+    
+    def tuttiToDict(self):
+        return [u.toDict() for u in self._utenti_repo.tutti()]

@@ -1,24 +1,30 @@
 import time
-from Repos.backup_repository import BackupRepository
 from Boundary.boundary_dispositivi import BoundaryDispositivo
+from Boundary.boundary_utenti import BoundaryUtente
 from Models.attuatore import Attuatore
 from datetime import datetime
 from Repos.dispositivo_repository import DispositivoRepository
+from Repos.backup_repository import BackupRepository
+from Repos.utente_repository import UtenteRepository
 from Services.gestore_dati import GestoreDati
 from Services.gestore_dispositivi import GestoreDispositivi
+from Services.gestore_utenti import GestoreUtenti
 from Views.Timer import Timer
 
 def main():
     print("Avvio")
 
-    # 1. Inizializzazione
+    # Inizializzazione
     backup_repo = BackupRepository()
     dispositivo_repo = DispositivoRepository()
+    utenti_repo = UtenteRepository()
     g_dati = GestoreDati(backup_repo)
     g_disp = GestoreDispositivi(dispositivo_repo)
+    g_utenti = GestoreUtenti(utenti_repo)
     boundary_disp = BoundaryDispositivo(g_dati, g_disp)
+    boundary_utenti = BoundaryUtente(g_utenti, g_dati, utenti_repo)
 
-    # 2. Ripristino dati
+    # Ripristino dati
     dati_salvati = g_dati.recupera_contenuto_backup()
     if dati_salvati:
         print(f"[Ripristino] Stato ripristinato tramite backup: '{dati_salvati}'")
@@ -41,6 +47,36 @@ def main():
     timer_sensori = Timer(azione_da_eseguire = g_disp.check_sensori, intervallo_secondi=60)
     timer_sensori.avvia()
 
+    #registrazione o autenticazione utente
+    utente_autenticato = None
+
+    while utente_autenticato is None:
+        print("\n=======================================================")
+        print(" ACCESSO AL SISTEMA RICHIESTO ")
+        print("=======================================================")
+        print("Comandi: \n'login' (accedi al pannello) \n'registra' (crea account) \n'esci'")
+        print("=======================================================\n")
+        
+        scelta = input("Scegli un'opzione> ").strip().lower()
+
+        if scelta == "esci":
+            print("Chiusura in corso...")
+            timer_backup.ferma()
+            timer_attuatori.ferma()
+            timer_sensori.ferma()
+            return
+
+        elif scelta == "registra":
+            # Richiama la funzione separata del boundary
+            boundary_utenti.form_registrazione()
+
+        elif scelta == "login":
+            # Richiama la funzione del boundary che restituisce l'utente o None
+            utente_autenticato = boundary_utenti.form_login()
+            
+        else:
+            print(f"Opzione '{scelta}' non valida.")
+
     # 5. Interazione
 
 
@@ -48,7 +84,7 @@ def main():
     while True:
         print("Schermata principale. Inserisci un comando:")
         print("\n=======================================================")
-        print("Comandi disponibili: \n'stato' (mostra JSON) \n'esci' \n'dispositivi' (gestione dispositivi)")
+        print("Comandi disponibili: \n'stato' (mostra JSON) \n'esci' \n'dispositivi' (gestione dispositivi)", "\n'utenti' (gestione utenti)")
         print("=======================================================\n")
         comando = input("Inserisci comando> ").strip().lower()
         if comando == "esci":
@@ -61,6 +97,8 @@ def main():
             print(f"\n[Dati in Memoria] {backup_repo.getBackup()}\n")
         elif comando == "dispositivi": #con il comando dispositivi entriamo in un altro ciclo while nel boundary, che può essere rotto solo dal comando indietro, pertanto quando si sbaglia ad inserire un comando si rimane nella sezione dispositivi
             boundary_disp.menu_disp()
+        elif comando == "utenti":
+            boundary_utenti.menu_utenti()
         else:
             print(f"Comando '{comando}' non riconosciuto.")
 
