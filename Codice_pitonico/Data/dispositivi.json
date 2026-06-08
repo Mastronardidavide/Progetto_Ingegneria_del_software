@@ -1,11 +1,5 @@
 [
   {
-    "id": "2",
-    "tipo": "sensore",
-    "nome": "ponno",
-    "soglia": 23.4
-  },
-  {
     "id": "8",
     "tipo": "sensore",
     "nome": "marco",
@@ -17,5 +11,11 @@
     "nome": "mario",
     "orarioAttivazione": "22:10:00",
     "stato": true
+  },
+  {
+    "id": "1",
+    "tipo": "sensore",
+    "nome": "dio",
+    "soglia": 22.3
   }
 ]
