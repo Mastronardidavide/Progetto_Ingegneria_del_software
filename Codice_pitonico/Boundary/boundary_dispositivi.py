@@ -12,6 +12,7 @@ class BoundaryDispositivo():
         self._g_dati = g_dati 
         self._g_disp = g_disp
 
+
     
     def menu_disp(self):
         while True:
@@ -77,6 +78,39 @@ class BoundaryDispositivo():
                 dati = self._g_disp.tutte_to_dict()
                 self._g_dati.esegui_backup(dati)
                 
+            elif comando == "configura":
+                id_disp = input("Inserisci l'ID del dispositivo da configurare: ").strip()
+                
+                # 1. Raccogliamo i potenziali parametri (inserendo None come default se premono Invio)
+                soglia_input = input("Nuova soglia (float) [Premi Invio per saltare]: ").strip()
+                nuova_soglia = float(soglia_input) if soglia_input else None
+
+                stato_input = input("Nuovo stato (on/off) [Premi Invio per saltare]: ").strip().lower()
+                nuovo_stato = True if stato_input == "on" else (False if stato_input == "off" else None)
+
+                nuovo_orario = None
+                orario_str = input("Nuovo orario (HH:MM) [Premi Invio per saltare]: ").strip()
+                if orario_str:
+                    try:
+                        nuovo_orario = datetime.strptime(orario_str, "%H:%M").time()
+                    except ValueError:
+                        print("Formato orario errato. Verrà ignorato.")
+
+                # 2. RICHIAMO DIRETTO DELLA FUNZIONE DAL G_DISP
+                feedback = self._g_disp.configuraDispositivo(
+                    id=id_disp, 
+                    nuova_soglia=nuova_soglia, 
+                    nuovo_stato=nuovo_stato, 
+                    nuovo_orario=nuovo_orario
+                )
+                print(feedback)
+
+                # 3. Salvataggio e backup
+                dati = self._g_disp.tutte_to_dict()
+                self._g_dati.esegui_backup(str(dati))
+
+
+
             elif comando == "indietro":
                 break
             else:
