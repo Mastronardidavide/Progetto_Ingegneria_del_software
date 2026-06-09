@@ -10,6 +10,7 @@ from Repos.dispositivo_repository import DispositivoRepository
 from Repos.backup_repository import BackupRepository
 from Repos.utente_repository import UtenteRepository
 from Repos.zona_repository import ZonaRepository
+from Repos.log_repository import LogRepository
 from Services.gestore_dati import GestoreDati
 from Services.gestore_dispositivi import GestoreDispositivi
 from Services.gestore_utenti import GestoreUtenti
@@ -24,10 +25,11 @@ def main():
     dispositivo_repo = DispositivoRepository()
     utenti_repo = UtenteRepository()
     zona_repo = ZonaRepository()
-    g_dati = GestoreDati(backup_repo)
+    log_repo = LogRepository()
+    g_dati = GestoreDati(backup_repo, log_repo)
     g_disp = GestoreDispositivi(dispositivo_repo)
     g_utenti = GestoreUtenti(utenti_repo)
-    g_zona = GestoreZona(zona_repo, g_disp) #in questo caso passiamo anche g_disp per fare un check sull'esistenza di dispositivi prima di associarli
+    g_zona = GestoreZona(zona_repo, g_disp, log_repo) #in questo caso passiamo anche g_disp per fare un check sull'esistenza di dispositivi prima di associarli
     boundary_disp = BoundaryDispositivo(g_dati, g_disp)
     boundary_utenti = BoundaryUtente(g_utenti, g_dati, utenti_repo)
     boundary_zone = BoundaryZona(g_zona)
