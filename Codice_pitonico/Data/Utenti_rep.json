@@ -1,11 +1,5 @@
 [
     {
-        "id": "1",
-        "nome": "fede",
-        "password": "batti",
-        "tipo": "Ospite"
-    },
-    {
         "id": "3",
         "nome": "fede",
         "password": "batti",

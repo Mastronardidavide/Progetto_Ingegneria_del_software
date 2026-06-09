@@ -15,7 +15,7 @@ class Attuatore(Dispositivo): #eredita da dispositivo
                 "tipo": self._tipo,
                 "nome": self._nome,
                 "orarioAttivazione": self._orarioAttivazione.isoformat() if self._orarioAttivazione else None, 
-                "stato": self._statoAttuatore}
+                "statoAttuatore": self._statoAttuatore}
     
     #definisco i metodi della classe
     def setOrario(self, nuovo_orario: time) -> None:
@@ -38,4 +38,4 @@ class Attuatore(Dispositivo): #eredita da dispositivo
     def fromDict(cls, d:dict) -> "Attuatore":
         orario_str = d["orarioAttivazione"]
         orarioRiconvertito = time.fromisoformat(orario_str) if orario_str is not None else None
-        return cls(d["id"], d["tipo"], d["nome"], orarioRiconvertito, d["stato"])
+        return cls(d["id"], d["tipo"], d["nome"], orarioRiconvertito, d["statoAttuatore"])

@@ -65,25 +65,32 @@ class GestoreDispositivi:
                 disp.setOrario(nuovo_orario)
             self._dispositivo_repo.salva() #salvo le modifiche
             return f"dispositivo riconfigurato"
+    #andiamo a controllare che gli attuatori siano da accendere o spegnere, tenendo conto che se fanno parte di una zona,
+    #sarà il gestore zone a decidere
+    def check_attuatori(self, zona_repo) -> None:
+        orario_corrente = datetime.now().time().replace(second=0, microsecond=0)
+        
+        # Raccogliamo tutti gli ID degli attuatori che appartengono a una zona
+        id_occupati = set()
+        for zona in zona_repo.tutte():
+            for id_att in zona.getIdAttuatori():
+                id_occupati.add(id_att)
 
-    def check_attuatori(self):
-    # Preleviamo l'orario attuale del sistema (ore, minuti, secondi)
-        ora_attuale = datetime.now().time()
-    # Scorriamo tutti i dispositivi presenti nella repository
+        # Cicliamo su tutti i dispositivi del sistema
         for dispositivo in self._dispositivo_repo.tutte():
-            # Filtriamo: controlliamo se l'oggetto estratto è un Attuatore
-            if isinstance(dispositivo, Attuatore):
-                orario_soglia = dispositivo.getOrario()
+            # Controlliamo che sia un attuatore e che non sia in una zona
+            if isinstance(dispositivo, Attuatore) and dispositivo.getId() not in id_occupati:
                 
-                # Se l'attuatore ha un orario impostato ed è attualmente spento (False o None)
-                if orario_soglia is not None and not dispositivo.getStato():
-                    # Confrontiamo se l'ora attuale ha superato o raggiunto la soglia
-                    if ora_attuale >= orario_soglia:
-                        print(f"L'attuatore ID '{dispositivo.getId()}' ({dispositivo._nome}) "
-                                f"ha superato la soglia delle {orario_soglia.strftime('%H:%M:%S')}. Cambio stato!")
-                        
-                        dispositivo.cambiaStato()  # Lo accendiamo (fai il toggle a True)
-                        self._dispositivo_repo.salva() 
+                # Applichiamo il controllo orario per i dispositivi isolati
+                if dispositivo.getOrario() is not None:
+                    orario_attuatore = dispositivo.getOrario().replace(second=0, microsecond=0)
+                    
+                    if orario_corrente == orario_attuatore:
+                        # Usiamo lo stesso controllo sicuro che hai ideato tu (evita toggle infiniti)
+                        if dispositivo.getStato() == False:
+                            dispositivo.cambiaStato()
+                            print(f"[Automazione Singola] Attuatore non presente in una zona o scenario '{dispositivo.getId()}' acceso.")
+
 
     def check_sensori(self):
         for dispositivo in self._dispositivo_repo.tutte():

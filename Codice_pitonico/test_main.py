@@ -39,20 +39,25 @@ def main():
     else:
         print("[Ripristino] Nessun backup trovato. Avvio standard.")
 
-    # Spazio definizione funzioni da eseguire periodicamente
+    # Spazio definizione funzioni da eseguire periodicamente, e che prendano argomenti, come dati per backup o repo per check attuatori
+    #se non definissimo queste funzioni ausiliarie, non potremmo passare argomenti ai metodi da eseguire periodicamente
     def backup():
         dati = dispositivo_repo.tutte()
         g_dati.esegui_backup(dati)
 
+    def esegui_check_attuatori():
+        g_disp.check_attuatori(zona_repo)
+
     # Avvio timer
-    timer_backup = Timer(azione_da_eseguire=backup, intervallo_secondi=360)
+    timer_backup = Timer(azione_da_eseguire=backup, intervallo_secondi=360) #qui posso senza problemi passare backup, perché è una funzione che non richiede argomenti
     timer_backup.avvia()
     print("Controllo backup avviato con successo.")
 
-    timer_attuatori = Timer(azione_da_eseguire=g_disp.check_attuatori, intervallo_secondi=360)
+    timer_attuatori = Timer(azione_da_eseguire=esegui_check_attuatori, intervallo_secondi=60) #qui posso passare la funzione perché "impacchetta"
+    #la vera funzione di chec_attuatori, la quale di per se richiede argomenti
     timer_attuatori.avvia()
 
-    timer_sensori = Timer(azione_da_eseguire = g_disp.check_sensori, intervallo_secondi=360)
+    timer_sensori = Timer(azione_da_eseguire = g_disp.check_sensori, intervallo_secondi=60)
     timer_sensori.avvia()
 
     timer_zone = Timer(azione_da_eseguire = g_zona.check_automazioni_zone, intervallo_secondi=60)

@@ -1,4 +1,4 @@
 {
-  "orario": "2026-06-09T14:00:46.499687",
-  "contenuto": "[{'id': '8', 'tipo': 'sensore', 'nome': 'marco', 'soglia': 10.3}, {'id': '10', 'tipo': 'attuatore', 'nome': 'mario', 'orarioAttivazione': '22:10:00', 'stato': True}, {'id': '1', 'tipo': 'sensore', 'nome': 'dio', 'soglia': 22.0}, {'id': '2', 'tipo': 'sensore', 'nome': 'marvo', 'soglia': 20.0}, {'id': '4', 'tipo': 'attuatore', 'nome': 'attuatore4', 'orarioAttivazione': '11:57:00', 'stato': True}, {'id': '5', 'tipo': 'attuatore', 'nome': 'attuatore5', 'orarioAttivazione': '14:01:00', 'stato': True}]"
+  "orario": "2026-06-09T14:42:30.917947",
+  "contenuto": "[{'id': '3', 'nome': 'fede', 'password': 'batti', 'tipo': 'Ospite'}]"
 }
