@@ -1,0 +1,7 @@
+[
+  {
+    "timestamp": "2026-06-09 17:12:32",
+    "tipo": "ERROR",
+    "messaggio": "GestoreDati: Salvataggio automatico fallito. Dettaglio: Object of type Sensore is not JSON serializable"
+  }
+]
