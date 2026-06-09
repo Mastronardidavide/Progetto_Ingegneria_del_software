@@ -1,11 +1,12 @@
 [
   {
     "id": 1,
-    "nome": "zona1",
-    "orarioZona": "11:01:00",
+    "nome": "zona1rinominata",
+    "orarioZona": "13:57:00",
+    "orarioDisattivazione": "13:38:00",
     "sogliaZona": null,
     "id_attuatori": [
-      "10"
+      "5"
     ],
     "id_sensore": null
   }

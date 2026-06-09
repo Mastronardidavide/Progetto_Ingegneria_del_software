@@ -1,4 +1,6 @@
 from Models.dispositivo import Dispositivo
+import random
+
 
 class Sensore(Dispositivo):
     def __init__(self, id: str,tipo : str, nome:str = None, soglia: float = None):
@@ -7,6 +9,10 @@ class Sensore(Dispositivo):
         self._nome = nome
         #inizializzo la lista
         self._soglia = soglia
+
+    def misurazione(self) -> float:
+        # Simulazione di una misurazione del sensore (puoi sostituire con dati reali o logica più complessa)
+        return round(random.uniform(0.0, 30.0), 1)  # Valore casuale tra 0.0 e 30.0
 
     def getSoglia(self) -> float:
         return self._soglia

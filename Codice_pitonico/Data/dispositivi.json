@@ -23,5 +23,19 @@
     "tipo": "sensore",
     "nome": "marvo",
     "soglia": 20.0
+  },
+  {
+    "id": "4",
+    "tipo": "attuatore",
+    "nome": "attuatore4",
+    "orarioAttivazione": "11:57:00",
+    "stato": true
+  },
+  {
+    "id": "5",
+    "tipo": "attuatore",
+    "nome": "attuatore5",
+    "orarioAttivazione": "14:01:00",
+    "stato": false
   }
 ]

@@ -9,23 +9,23 @@ class BoundaryZona:
         while True:
             print("\n=======================================================")
             print("Gestione Zone: \n'lista' (mostra zone) \n'aggiungi' (crea nuova zona) \n'rimuovi' (elimina zona)")
-            print("'modifica' (aggiorna nome/orario) \n'automazione' (imposta sensore+soglia) \n'associa' (collega attuatore) \n'disassocia' (rimuovi attuatore) \n'indietro' (torna al menu principale)")
+            print("'rinomina' (aggiorna nome) \n'orario' (imposta finestra temporale) \n'automazione' (imposta sensore+soglia)")
+            print("'associa' (collega attuatore) \n'disassocia' (rimuovi attuatore) \n'indietro' (torna al menu principale)")
             print("=======================================================\n")
             
             comando = input("Inserisci comando zona> ").strip().lower()
             
             if comando == "lista":
-                # Otteniamo tutte le zone dal repository sfruttando il metodo del tuo repo
                 zone = self._g_zona._zona_repo.tutte()
                 if not zone:
                     print("Nessuna zona presente nel sistema.")
                 else:
-                    print("\n--- ELENCO ZONE ---")
+                    print("\nELENCO ZONE")
                     for z in zone:
-                        print(z) # Sfrutta il dunder method __str__ definito nel modello Zona
+                        print(f"\n- {z.getNome()}")
                 
             elif comando == "aggiungi":
-                # 1. Validazione ID Zona
+                # Validazione ID Zona, aggiungo la zona ma non ne inserisco immediatamente orari e dispositivi
                 while True:
                     try:
                         id_zona = int(input("Inserisci ID zona (numero intero): ").strip())
@@ -35,51 +35,10 @@ class BoundaryZona:
                 
                 nome = input("Inserisci nome zona: ").strip()
                 
-                # 2. Creazione iniziale tramite il gestore
+                # crea una zona vuota passandogli solo ID e Nome
                 feedback = self._g_zona.creaZona(id=id_zona, nome=nome)
-                print(feedback)
+                print(f"\n[Nuova zona]: {feedback}")
                 
-                # Se la zona è stata creata con successo, avviamo la configurazione guidata degli accessori
-                if feedback == "La zona è stata creata con successo":
-                    # Recuperiamo l'oggetto appena creato per modificarlo
-                    zona_creata = self._g_zona._zona_repo.trovaPerId(id_zona)
-                    
-                    # 3. Inserimento manuale e continuo degli ID Attuatori
-                    print("\n--- Associazione Attuatori ---")
-                    while True:
-                        id_att = input("Inserisci l'ID di un attuatore da associare (Premi Invio per terminare): ").strip()
-                        if not id_att:
-                            break
-                        # Chiamata al metodo del gestore per associare l'attuatore
-                        res = self._g_zona.associaAttuatoreAZona(id_zona=id_zona, id_attuatore=id_att)
-                        print(res)
-
-                    # 4. Inserimento Orario opzionale
-                    orario_str = input("\nVuoi impostare un orario di attivazione? (HH:MM) [Premi Invio per saltare]: ").strip()
-                    if orario_str:
-                        try:
-                            orario_zona = datetime.strptime(orario_str, "%H:%M").time()
-                            self._g_zona.modificaZona(id=id_zona, nuovo_orario=orario_zona)
-                            print("Orario di attivazione impostato con successo.")
-                        except ValueError:
-                            print("Formato orario errato. L'orario è stato saltato.")
-
-                    # 5. OPZIONE B: Richiesta guidata e accoppiata per Sensore + Soglia
-                    scelta_auto = input("\nVuoi attivare l'automazione basata su un sensore? (si/no): ").strip().lower()
-                    if scelta_auto == "si":
-                        id_sensore = input("Inserisci l'ID del sensore pilota: ").strip()
-                        while True:
-                            try:
-                                soglia_input = input(f"Inserisci la soglia (float) oltre la quale attivare gli attuatori: ").strip()
-                                soglia = float(soglia_input)
-                                break
-                            except ValueError:
-                                print("Soglia non valida. Inserisci un numero decimale (float).")
-                        
-                        # Chiamata alla nuova funzione di accoppiamento del gestore
-                        res_auto = self._g_zona.impostaAutomazioneSensore(id_zona=id_zona, id_sensore=id_sensore, valore_soglia=soglia)
-                        print(res_auto)
-
             elif comando == "rimuovi":
                 while True:
                     try:
@@ -91,7 +50,7 @@ class BoundaryZona:
                 feedback = self._g_zona.eliminaZona(id=id_zona)
                 print(feedback)
 
-            elif comando == "modifica":
+            elif comando == "rinomina":
                 while True:
                     try:
                         id_zona = int(input("Inserisci l'ID della zona da modificare: ").strip())
@@ -100,18 +59,41 @@ class BoundaryZona:
                         print("L'ID deve essere un numero intero.")
                 
                 nuovo_nome = input("Nuovo nome della zona [Premi Invio per non modificare]: ").strip()
-                if not nuevo_nome:
+                if not nuovo_nome:
                     nuovo_nome = None
-                    
-                nuovo_orario = None
-                orario_str = input("Nuovo orario (HH:MM) [Premi Invio per non modificare]: ").strip()
-                if orario_str:
-                    try:
-                        nuovo_orario = datetime.strptime(orario_str, "%H:%M").time()
-                    except ValueError:
-                        print("Formato orario errato. L'orario non verrà modificato.")
 
-                feedback = self._g_zona.modificaZona(id=id_zona, nuovo_nome=nuovo_nome, nuovo_orario=nuovo_orario)
+                feedback = self._g_zona.modificaZona(id=id_zona, nuovo_nome=nuovo_nome)
+                print(feedback)
+
+            # configurazione finestra oraria di accensione della zona
+            elif comando == "orario":
+                while True:
+                    try:
+                        id_zona = int(input("Inserisci l'ID della zona da programmare: ").strip())
+                        break
+                    except ValueError:
+                        print("L'ID deve essere un numero intero.")
+                
+                # Richiesta e validazione dell'orario di accensione
+                orario_inizio = None
+                str_in = input("Inserisci l'orario di accensione (HH:MM): ").strip()
+                if str_in:
+                    try:
+                        orario_inizio = datetime.strptime(str_in, "%H:%M").time()
+                    except ValueError:
+                        print("Formato errato. L'orario di accensione è stato saltato.")
+
+                # Richiesta e validazione dell'orario di spegnimento
+                orario_fine = None
+                str_fi = input("Inserisci l'orario di spegnimento (HH:MM): ").strip()
+                if str_fi:
+                    try:
+                        orario_fine = datetime.strptime(str_fi, "%H:%M").time()
+                    except ValueError:
+                        print("Formato errato. L'orario di spegnimento è stato saltato.")
+
+                # Chiamata alla funzione del gestore
+                feedback = self._g_zona.impostaProgrammazioneOraria(id_zona=id_zona, orario_inizio=orario_inizio, orario_fine=orario_fine)
                 print(feedback)
 
             elif comando == "automazione":
@@ -137,7 +119,7 @@ class BoundaryZona:
             elif comando == "associa":
                 while True:
                     try:
-                        id_zona = int(input("ID della zona a cui collegare il dispositivo: ").strip())
+                        id_zona = int(input("ID della zona a cui collegare l'attuatore: ").strip())
                         break
                     except ValueError:
                         print("L'ID deve essere un numero intero.")
@@ -149,7 +131,7 @@ class BoundaryZona:
             elif comando == "disassocia":
                 while True:
                     try:
-                        id_zona = int(input("ID della zona da cui rimuovere il dispositivo: ").strip())
+                        id_zona = int(input("ID della zona da cui rimuovere l'attuatore: ").strip())
                         break
                     except ValueError:
                         print("L'ID deve essere un numero intero.")

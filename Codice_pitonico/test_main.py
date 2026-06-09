@@ -49,11 +49,14 @@ def main():
     timer_backup.avvia()
     print("Controllo backup avviato con successo.")
 
-    timer_attuatori = Timer(azione_da_eseguire=g_disp.check_attuatori, intervallo_secondi=3)
+    timer_attuatori = Timer(azione_da_eseguire=g_disp.check_attuatori, intervallo_secondi=360)
     timer_attuatori.avvia()
 
-    timer_sensori = Timer(azione_da_eseguire = g_disp.check_sensori, intervallo_secondi=60)
+    timer_sensori = Timer(azione_da_eseguire = g_disp.check_sensori, intervallo_secondi=360)
     timer_sensori.avvia()
+
+    timer_zone = Timer(azione_da_eseguire = g_zona.check_automazioni_zone, intervallo_secondi=60)
+    timer_zone.avvia()
 
     #registrazione o autenticazione utente
     utente_autenticato = None
@@ -72,6 +75,7 @@ def main():
             timer_backup.ferma()
             timer_attuatori.ferma()
             timer_sensori.ferma()
+            timer_zone.ferma()
             return
 
         elif scelta == "registra":

@@ -24,6 +24,9 @@ class Attuatore(Dispositivo): #eredita da dispositivo
     def getOrario(self) -> time:
         return self._orarioAttivazione
     
+    def setStato(self, nuovo_stato: bool) -> None:
+        self._statoAttuatore = nuovo_stato
+
     def getStato(self) -> bool:
         return self._statoAttuatore
 

@@ -3,13 +3,13 @@ from datetime import time
 class Zona:
     # la soglia ora è un valore float singolo opzionale, non più una lista, mentre si possono avere più attuatori associati
     def __init__(self, id: int, nome: str = None, orarioZona: time = None, 
-                 sogliaZona: float = None, id_attuatori: list = None, id_sensore: str = None):
+                 sogliaZona: float = None, id_attuatori: list = None, id_sensore: str = None, orarioDisattivazione: time = None):
         
         self._id = id
         self._nome = nome
         self._orarioZona = orarioZona
         self._sogliaZona = sogliaZona 
-        
+        self._orarioDisattivazione = orarioDisattivazione
         # Manteniamo la lista degli attuatori associati manualmente
         self._id_attuatori = id_attuatori if id_attuatori is not None else []
         self._id_sensore = id_sensore
@@ -34,6 +34,9 @@ class Zona:
     def getIdSensore(self) -> str:
         return self._id_sensore
 
+    def getOrarioDisattivazione(self) -> time:
+        return self._orarioDisattivazione
+
     # Configurazione
 
     def impostaSoglia(self, soglia: float) -> None:
@@ -57,6 +60,7 @@ class Zona:
             "id": self._id,
             "nome": self._nome,
             "orarioZona": self._orarioZona.isoformat() if self._orarioZona else None,
+            "orarioDisattivazione": self._orarioDisattivazione.isoformat() if self._orarioDisattivazione else None,
             "sogliaZona": self._sogliaZona,
             "id_attuatori": self._id_attuatori,
             "id_sensore": self._id_sensore
@@ -67,13 +71,17 @@ class Zona:
         orario_str = d.get("orarioZona")
         orarioRiconvertito = time.fromisoformat(orario_str) if orario_str is not None else None #formattazione del tempo da stringa a time
         
+        orario_disattivazione_str = d.get("orarioDisattivazione")
+        orario_disattivazione_riconvertito = time.fromisoformat(orario_disattivazione_str) if orario_disattivazione_str is not None else None
+
         return cls(
             id=d["id"], 
             nome=d["nome"], 
             orarioZona=orarioRiconvertito, 
             sogliaZona=d.get("sogliaZona", None),
             id_attuatori=d.get("id_attuatori", []),
-            id_sensore=d.get("id_sensore", None)
+            id_sensore=d.get("id_sensore", None),
+            orarioDisattivazione=orario_disattivazione_riconvertito
         )
 
     def __str__(self) -> str: #definisco il dunder per stampare le variabili, in caso esse siano definite
