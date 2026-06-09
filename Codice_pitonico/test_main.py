@@ -1,11 +1,6 @@
-import time
 from Boundary.boundary_dispositivi import BoundaryDispositivo
 from Boundary.boundary_utenti import BoundaryUtente
 from Boundary.boundary_zone import BoundaryZona
-from Models.attuatore import Attuatore
-from Models.sensore import Sensore
-from Models.zona import Zona
-from datetime import datetime
 from Repos.dispositivo_repository import DispositivoRepository
 from Repos.backup_repository import BackupRepository
 from Repos.utente_repository import UtenteRepository
