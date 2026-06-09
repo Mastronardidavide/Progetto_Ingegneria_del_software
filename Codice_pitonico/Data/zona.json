@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "nome": "zona1",
+    "orarioZona": "11:01:00",
+    "sogliaZona": null,
+    "id_attuatori": [
+      "10"
+    ],
+    "id_sensore": null
+  }
+]

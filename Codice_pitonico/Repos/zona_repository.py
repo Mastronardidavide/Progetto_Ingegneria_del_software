@@ -1,4 +1,4 @@
-import json
+import json 
 from Models.zona import Zona
 #importo la classe zona dal package Models, ma se runni da errore perche una regola fondamentale dell'ECB dice che non si devono mai avviare file che stanno in sottocartelle
 #regola scritta nel documento 1.3 Entry Point

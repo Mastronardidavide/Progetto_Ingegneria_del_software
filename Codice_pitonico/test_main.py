@@ -1,14 +1,19 @@
 import time
 from Boundary.boundary_dispositivi import BoundaryDispositivo
 from Boundary.boundary_utenti import BoundaryUtente
+from Boundary.boundary_zone import BoundaryZona
 from Models.attuatore import Attuatore
+from Models.sensore import Sensore
+from Models.zona import Zona
 from datetime import datetime
 from Repos.dispositivo_repository import DispositivoRepository
 from Repos.backup_repository import BackupRepository
 from Repos.utente_repository import UtenteRepository
+from Repos.zona_repository import ZonaRepository
 from Services.gestore_dati import GestoreDati
 from Services.gestore_dispositivi import GestoreDispositivi
 from Services.gestore_utenti import GestoreUtenti
+from Services.gestore_zone import GestoreZona
 from Views.Timer import Timer
 
 def main():
@@ -18,11 +23,14 @@ def main():
     backup_repo = BackupRepository()
     dispositivo_repo = DispositivoRepository()
     utenti_repo = UtenteRepository()
+    zona_repo = ZonaRepository()
     g_dati = GestoreDati(backup_repo)
     g_disp = GestoreDispositivi(dispositivo_repo)
     g_utenti = GestoreUtenti(utenti_repo)
+    g_zona = GestoreZona(zona_repo, g_disp) #in questo caso passiamo anche g_disp per fare un check sull'esistenza di dispositivi prima di associarli
     boundary_disp = BoundaryDispositivo(g_dati, g_disp)
     boundary_utenti = BoundaryUtente(g_utenti, g_dati, utenti_repo)
+    boundary_zone = BoundaryZona(g_zona)
 
     # Ripristino dati
     dati_salvati = g_dati.recupera_contenuto_backup()
@@ -85,6 +93,7 @@ def main():
         print("Schermata principale. Inserisci un comando:")
         print("\n=======================================================")
         print("Comandi disponibili: \n'stato' (mostra JSON) \n'esci' \n'dispositivi' (gestione dispositivi)", "\n'utenti' (gestione utenti)")
+        print("'zone' (gestione zone)")
         print("=======================================================\n")
         comando = input("Inserisci comando> ").strip().lower()
         if comando == "esci":
@@ -99,6 +108,8 @@ def main():
             boundary_disp.menu_disp()
         elif comando == "utenti":
             boundary_utenti.menu_utenti()
+        elif comando == "zone":
+            boundary_zone.menu_zone()
         else:
             print(f"Comando '{comando}' non riconosciuto.")
 
