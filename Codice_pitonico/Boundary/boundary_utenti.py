@@ -1,12 +1,10 @@
 class BoundaryUtente:
     def __init__(self, g_utenti, g_dati, utenti_repo):
-        """ Riceve le istanze dei gestori necessarie al funzionamento """
         self._g_utenti = g_utenti
         self._g_dati = g_dati
         self._utenti_repo = utenti_repo
 
     def form_registrazione(self):
-        """ Gestisce l'interfaccia di input per la creazione di un account """
         print("\n--- REGISTRAZIONE NUOVO UTENTE ---")
         id_ut = input("Inserisci ID utente: ").strip()
         nome = input("Inserisci Nome utente: ").strip()
@@ -17,10 +15,7 @@ class BoundaryUtente:
         
 
     def form_login(self):
-        """ 
-        Gestisce l'interfaccia di input per l'accesso.
-        Ritorna l'oggetto utente se l'autenticazione ha successo, altrimenti None.
-        """
+
         print("\n--- ACCESSO AL SISTEMA ---")
         id_ut = input("Inserisci il tuo ID: ").strip()
         nome = input("Inserisci il tuo Nome Utente: ").strip()
