@@ -1,4 +1,4 @@
 {
-  "orario": "2026-06-10T15:37:10.568122",
+  "orario": "2026-06-10T18:24:09.257167",
   "contenuto": "[\n    {\n        \"id\": \"1\",\n        \"tipo\": \"sensore\",\n        \"nome\": \"a\",\n        \"soglia\": 10.0\n    },\n    {\n        \"id\": \"2\",\n        \"tipo\": \"attuatore\",\n        \"nome\": \"att1\",\n        \"orarioAttivazione\": null,\n        \"statoAttuatore\": false\n    }\n]"
 }
