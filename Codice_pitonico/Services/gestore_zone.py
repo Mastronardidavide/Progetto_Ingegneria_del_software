@@ -115,60 +115,45 @@ class GestoreZona:
         return "Programmazione oraria salvata con successo"
 
 
-# controllo periodico per verificare se è il momento di attivare le automazioni basate su orario o soglia
-    def check_automazioni_zone(self) -> None:
-        #proviamo a svolgere la funzione, ma intercettiamo gli errori se presenti e li scriviamo nel log
+# controllo periodico per verificare se è il momento di attivare le automazioni basate su orario o soglia,
+#ci limitiamo a identificare quali attuatori dovrebbero essere accesi e quali no. in tal modo possiamo passare l'informazione
+#a gestorescenari, il quale fa un controllo prioritario: dato che sono gli scenari ad avere la priorità, si assicura che se una zona vuole 
+#accendere un attuatore, condizione necessaria è che lo scenario non lo richieda spento, in tal modo rispettiamo ECB ed evitiamo
+#conflitti tra zone e scenari, in caso uno voglia spegnere un attuatore e l'altro accenderlo
+    def calcola_potenziali_attuatori(self) -> dict:
         try:
-
             orario_corrente = datetime.now().time()
-            # forziamo il confronto al minuto per non gestire secondi e sopratutto microsecondi
             orario_confronto = orario_corrente.replace(second=0, microsecond=0)
+            intenzioni = {}
 
-            # Cicliamo su tutte le zone presenti nel sistema
-            for zona in self._zona_repo.tutte():
+            for zona in self._zona_repo.tutte(): #imposto le condizioni che mi permettono di dire che un attuatore si dovrebbe accendere
                 accensione_orario = False
                 accensione_soglia = False
 
-                #Controllo Orario, mi assicuro che abbia un orario di attivazione e disattivazione
-                if zona.getOrarioZona() is not None and zona.getOrarioDisattivazione() is not None:
-                    # Allineiamo anche l'orario della zona al minuto per sicurezza nel confronto
+                if zona.getOrarioZona() is not None and zona.getOrarioDisattivazione() is not None: #verifico la condizione per l'orario
                     inizio = zona.getOrarioZona().replace(second=0, microsecond=0)
                     fine = zona.getOrarioDisattivazione().replace(second=0, microsecond=0)
-                    #controllo che l'orario ricada nella finestra temporale
-                    if inizio <= orario_confronto < fine: #non metto l'uguale perché se è esattamente l'orario di disattivazione, la zona deve spegnersi
-                        print(f"[Automazione Orario] Raggiunto l'orario per la zona '{zona.getNome()}'.")
+                    if inizio <= orario_confronto < fine:
                         accensione_orario = True
 
-                # Controll sulla soglia, se l'orario non è superato
-                if not accensione_orario and zona.getIdSensore() is not None:
-                    # Recuperiamo il sensore dalla repository dei dispositivi per
+                if not accensione_orario and zona.getIdSensore() is not None: #verifico la condizione per la soglia associata al sensore pilota
                     sensore = self._g_disp._dispositivo_repo.trovaPerId(zona.getIdSensore())
-                    
-                    # Verifichiamo che il sensore esista
                     if sensore is not None:
                         valore_corrente = sensore.misurazione()
-                        
                         if valore_corrente is not None and valore_corrente > zona.getSogliaZona():
-                            print(f"[Automazione Sensore] Il sensore '{zona.getIdSensore()}' ({valore_corrente}) ha superato la soglia ({zona.getSogliaZona()}) per la zona '{zona.getNome()}'.")
                             accensione_soglia = True
 
-                # attivazione degli attuatori, prendo lo stato desiderato "condizione" tramite logica OR
-                condizione = accensione_orario or accensione_soglia
-                
-                    # Se almeno uno dei criteri è soddisfatto, accendiamo tutti gli attuatori della zona
+                condizione = accensione_orario or accensione_soglia #faccio il merge delle condizioni tramite or
+
+                #qui controllo che l'attuatore in una zona non sia stato considerato in altre zone, o che la condizione di accensione
+                # sia verificata, in questo caso avviene la potenziale accensione: l'accensione ha priorità sullo spegnimento,
+                # basta una sola condizione per cui l'attuatore si debba accendere per far sì che lo faccia 
                 for id_attuatore in zona.getIdAttuatori():
-                    attuatore = self._g_disp._dispositivo_repo.trovaPerId(id_attuatore)
-                    if attuatore is not None:
-                        # Chiamiamo il metodo per accendere l'attuatore.
-                        #primo caso: la condizione è soddisfatta e l'attuatore è spento, lo accendiamo
-                        if condizione and attuatore.getStato() == False:
-                            attuatore.cambiaStato()
-                            print("attuatore acceso,per debug", id_attuatore) #per debug, da rimuovere
-                        elif not condizione and attuatore.getStato() == True:
-                            attuatore.cambiaStato()
-                            print("attuatore spento, per debug", id_attuatore) #per debug, da rimuovere
-                    # Salviamo tutto in repo
-                    self._g_disp._dispositivo_repo.salva()
+                    if id_attuatore not in intenzioni or condizione:
+                        intenzioni[id_attuatore] = condizione
+
+            return intenzioni #ritorno la lista di attuatori potenzialmente da accendere o spegnere
+
         except Exception as e:
-            #intercettiamo gli errori e li riportiamo nel log
-            self._log_repo.scriviErrore(f"GestoreZona.check_automazioni_zone() fallito: {str(e)}")
+            self._log_repo.scriviErrore(f"GestoreZona.calcola_intenzioni_attuatori() fallito: {str(e)}")
+            return {}

@@ -3,6 +3,13 @@
     "id": "1",
     "tipo": "sensore",
     "nome": "a",
-    "soglia": 22.3
+    "soglia": 10.0
+  },
+  {
+    "id": "2",
+    "tipo": "attuatore",
+    "nome": "att1",
+    "orarioAttivazione": null,
+    "statoAttuatore": false
   }
 ]

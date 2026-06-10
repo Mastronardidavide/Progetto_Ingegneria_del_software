@@ -19,7 +19,7 @@ class Timer:
 
     def _loop(self):
         while self._attivo:
-            time.sleep(self._intervallo)
+            time.sleep(self._intervallo),
             if self._attivo:
                 try:
                     self._azione() # Lancia il compito assegnato

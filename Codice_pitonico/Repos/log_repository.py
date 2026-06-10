@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-
+#questo log si occupa di intercettare gli errori di gestore dati, gestore zone e gestore scenari,e riportarli in un file JSON apposito invece di far crashare il codice
 class LogRepository:
     # Salviamo il file direttamente nella cartella principale, coerente con i tuoi backup
     def __init__(self, path: str = "errori.json"):

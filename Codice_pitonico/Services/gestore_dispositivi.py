@@ -99,7 +99,7 @@ class GestoreDispositivi:
                 if soglia is not None:
                     lettura_corrente = round(random.uniform(10.0, 30.0), 1) # Simulazione di una lettura casuale tra 10 e 30 in float
                     if lettura_corrente > soglia:
-                        print(f"Il sensodre ID 'f{dispositivo.getId()}' ({dispositivo._nome}) ha superato la soglia")
+                        print(f"Il sensore ID 'f{dispositivo.getId()}' ({dispositivo._nome}) ha superato la soglia")
     def lista(self):
         print("\nLista dispositivi:")
         if self._dispositivo_repo.tutte() == []:
